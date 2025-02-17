@@ -11,7 +11,10 @@ const Appointments = () => {
   return (
     <AppLayout>
       <div className="animate-in">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Consultas</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold text-gray-900">Consultas</h1>
+          <Button>Nova Consulta</Button>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="md:col-span-1">
