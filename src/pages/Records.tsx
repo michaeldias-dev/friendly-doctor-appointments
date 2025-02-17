@@ -10,8 +10,8 @@ const Records = () => {
     <AppLayout>
       <div className="animate-in">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Medical Records</h1>
-          <Button>New Record</Button>
+          <h1 className="text-2xl font-bold text-gray-900">Prontuários Médicos</h1>
+          <Button>Novo Prontuário</Button>
         </div>
 
         <Card className="mb-6">
@@ -20,7 +20,7 @@ const Records = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
               <Input
                 className="pl-10"
-                placeholder="Search records by patient name..."
+                placeholder="Buscar prontuários por nome do paciente..."
               />
             </div>
           </CardContent>
@@ -32,25 +32,25 @@ const Records = () => {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle>John Doe</CardTitle>
-                    <p className="text-sm text-gray-500">Created on April 1, 2024</p>
+                    <CardTitle>João Silva</CardTitle>
+                    <p className="text-sm text-gray-500">Criado em 1 de Abril, 2024</p>
                   </div>
-                  <Button variant="outline">Download PDF</Button>
+                  <Button variant="outline">Baixar PDF</Button>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div>
-                    <p className="text-gray-500">Diagnosis</p>
-                    <p className="font-medium">General Checkup</p>
+                    <p className="text-gray-500">Diagnóstico</p>
+                    <p className="font-medium">Consulta de Rotina</p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Treatment</p>
-                    <p className="font-medium">Prescribed Medication</p>
+                    <p className="text-gray-500">Tratamento</p>
+                    <p className="font-medium">Medicação Prescrita</p>
                   </div>
                   <div>
-                    <p className="text-gray-500">Next Visit</p>
-                    <p className="font-medium">In 3 months</p>
+                    <p className="text-gray-500">Próxima Visita</p>
+                    <p className="font-medium">Em 3 meses</p>
                   </div>
                 </div>
               </CardContent>

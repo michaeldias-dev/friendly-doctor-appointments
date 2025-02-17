@@ -14,36 +14,36 @@ const Profile = () => {
     <AppLayout>
       <div className="animate-in">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Doctor Profile</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Perfil do Médico</h1>
           <Button
             variant={isEditing ? "outline" : "default"}
             onClick={() => setIsEditing(!isEditing)}
           >
-            {isEditing ? "Cancel" : "Edit Profile"}
+            {isEditing ? "Cancelar" : "Editar Perfil"}
           </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="md:col-span-2">
             <CardHeader>
-              <CardTitle>Personal Information</CardTitle>
+              <CardTitle>Informações Pessoais</CardTitle>
             </CardHeader>
             <CardContent>
               <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
+                    <Label htmlFor="firstName">Nome</Label>
                     <Input
                       id="firstName"
-                      defaultValue="John"
+                      defaultValue="João"
                       readOnly={!isEditing}
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name</Label>
+                    <Label htmlFor="lastName">Sobrenome</Label>
                     <Input
                       id="lastName"
-                      defaultValue="Smith"
+                      defaultValue="Silva"
                       readOnly={!isEditing}
                     />
                   </div>
@@ -54,32 +54,32 @@ const Profile = () => {
                   <Input
                     id="email"
                     type="email"
-                    defaultValue="dr.smith@example.com"
+                    defaultValue="dr.silva@exemplo.com"
                     readOnly={!isEditing}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="specialization">Specialization</Label>
+                  <Label htmlFor="specialization">Especialização</Label>
                   <Input
                     id="specialization"
-                    defaultValue="General Medicine"
+                    defaultValue="Clínica Geral"
                     readOnly={!isEditing}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="bio">Biography</Label>
+                  <Label htmlFor="bio">Biografia</Label>
                   <Textarea
                     id="bio"
-                    defaultValue="Dr. Smith is a board-certified physician with over 15 years of experience in general medicine..."
+                    defaultValue="Dr. Silva é um médico certificado com mais de 15 anos de experiência em clínica geral..."
                     readOnly={!isEditing}
                     className="h-32"
                   />
                 </div>
 
                 {isEditing && (
-                  <Button type="submit">Save Changes</Button>
+                  <Button type="submit">Salvar Alterações</Button>
                 )}
               </form>
             </CardContent>
@@ -87,20 +87,20 @@ const Profile = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>Statistics</CardTitle>
+              <CardTitle>Estatísticas</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-500">Total Patients</p>
+                  <p className="text-sm text-gray-500">Total de Pacientes</p>
                   <p className="text-2xl font-bold">145</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Appointments This Month</p>
+                  <p className="text-sm text-gray-500">Consultas Este Mês</p>
                   <p className="text-2xl font-bold">48</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Years of Experience</p>
+                  <p className="text-sm text-gray-500">Anos de Experiência</p>
                   <p className="text-2xl font-bold">15</p>
                 </div>
               </div>

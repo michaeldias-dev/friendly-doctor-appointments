@@ -11,7 +11,7 @@ const Index = () => {
           <h1 className="text-2xl font-bold text-primary-700">MedSchedule</h1>
           <Link to="/login">
             <Button variant="outline" className="font-medium">
-              Doctor Login
+              Login do Médico
             </Button>
           </Link>
         </div>
@@ -20,15 +20,15 @@ const Index = () => {
       <main className="container mx-auto px-6 pt-20 pb-16">
         <div className="max-w-4xl mx-auto text-center animate-in">
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Streamlined Medical Appointment Management
+            Gestão Simplificada de Consultas Médicas
           </h1>
           <p className="text-xl text-gray-600 mb-12">
-            Efficient scheduling, seamless record management, and enhanced patient care
-            in one integrated platform.
+            Agendamentos eficientes, gestão de prontuários e atendimento aprimorado
+            em uma única plataforma integrada.
           </p>
           <Link to="/login">
             <Button size="lg" className="font-semibold text-lg px-8">
-              Get Started
+              Começar Agora
             </Button>
           </Link>
         </div>
@@ -38,9 +38,9 @@ const Index = () => {
             <div className="h-12 w-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
               <Calendar className="h-6 w-6 text-primary-600" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Easy Scheduling</h3>
+            <h3 className="text-xl font-semibold mb-2">Agendamento Fácil</h3>
             <p className="text-gray-600">
-              Manage your appointments efficiently with our intuitive calendar interface.
+              Gerencie suas consultas de forma eficiente com nossa interface intuitiva de calendário.
             </p>
           </div>
 
@@ -48,10 +48,10 @@ const Index = () => {
             <div className="h-12 w-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
               <ClipboardCheck className="h-6 w-6 text-primary-600" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Medical Records</h3>
+            <h3 className="text-xl font-semibold mb-2">Prontuários Médicos</h3>
             <p className="text-gray-600">
-              Securely manage and access patient records with easy form filling and PDF
-              downloads.
+              Gerencie e acesse prontuários de pacientes com facilidade, incluindo
+              preenchimento de formulários e downloads em PDF.
             </p>
           </div>
 
@@ -59,9 +59,9 @@ const Index = () => {
             <div className="h-12 w-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
               <UserCircle className="h-6 w-6 text-primary-600" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Doctor Profiles</h3>
+            <h3 className="text-xl font-semibold mb-2">Perfil do Médico</h3>
             <p className="text-gray-600">
-              Maintain your professional profile and manage your practice efficiently.
+              Mantenha seu perfil profissional e gerencie sua prática de forma eficiente.
             </p>
           </div>
         </div>
@@ -69,7 +69,7 @@ const Index = () => {
 
       <footer className="container mx-auto px-6 py-8 border-t">
         <div className="text-center text-gray-600">
-          <p>&copy; 2024 MedSchedule. All rights reserved.</p>
+          <p>&copy; 2024 MedSchedule. Todos os direitos reservados.</p>
         </div>
       </footer>
     </div>

@@ -19,8 +19,8 @@ const Login = () => {
     setTimeout(() => {
       setIsLoading(false);
       toast({
-        title: "Success",
-        description: "Welcome back, Dr. Smith!",
+        title: "Sucesso",
+        description: "Bem-vindo de volta, Dr. Silva!",
       });
       navigate("/dashboard");
     }, 1000);
@@ -30,15 +30,15 @@ const Login = () => {
     <div className="min-h-screen bg-gradient-to-b from-primary-50 to-white flex flex-col justify-center">
       <Link to="/" className="absolute top-6 left-6">
         <Button variant="ghost" className="text-primary-600">
-          ← Back to home
+          ← Voltar para início
         </Button>
       </Link>
 
       <div className="container max-w-md mx-auto px-6">
         <div className="bg-white rounded-2xl p-8 shadow-sm animate-in">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>
-            <p className="text-gray-600 mt-2">Sign in to your account</p>
+            <h1 className="text-2xl font-bold text-gray-900">Bem-vindo de Volta</h1>
+            <p className="text-gray-600 mt-2">Entre na sua conta</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -47,14 +47,14 @@ const Login = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="doctor@example.com"
+                placeholder="medico@exemplo.com"
                 required
                 className="w-full"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Senha</Label>
               <Input
                 id="password"
                 type="password"
@@ -69,13 +69,13 @@ const Login = () => {
               className="w-full font-semibold"
               disabled={isLoading}
             >
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? "Entrando..." : "Entrar"}
             </Button>
           </form>
 
           <div className="mt-6 text-center">
             <a href="#" className="text-sm text-primary-600 hover:underline">
-              Forgot your password?
+              Esqueceu sua senha?
             </a>
           </div>
         </div>
