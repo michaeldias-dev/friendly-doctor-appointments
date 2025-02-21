@@ -26,7 +26,7 @@ const Index = () => {
             Agendamentos eficientes, gestão de prontuários e atendimento aprimorado
             em uma única plataforma integrada.
           </p>
-          <Link to="/login">
+          <Link to="/auth">
             <Button size="lg" className="font-semibold text-lg px-8">
               Começar Agora
             </Button>
