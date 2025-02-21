@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import NewRecord from "@/components/NewRecord";
 
 const Records = () => {
   return (
@@ -11,7 +13,14 @@ const Records = () => {
       <div className="animate-in">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Prontuários Médicos</h1>
-          <Button>Novo Prontuário</Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button>Novo Prontuário</Button>
+            </SheetTrigger>
+            <SheetContent className="w-full sm:max-w-xl">
+              <NewRecord />
+            </SheetContent>
+          </Sheet>
         </div>
 
         <Card className="mb-6">

@@ -3,7 +3,9 @@ import AppLayout from "@/components/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
+import NewAppointment from "@/components/NewAppointment";
 
 const Appointments = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -13,7 +15,14 @@ const Appointments = () => {
       <div className="animate-in">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Consultas</h1>
-          <Button>Nova Consulta</Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button>Nova Consulta</Button>
+            </SheetTrigger>
+            <SheetContent className="w-full sm:max-w-xl">
+              <NewAppointment />
+            </SheetContent>
+          </Sheet>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
