@@ -9,7 +9,7 @@ const Index = () => {
       <nav className="container mx-auto px-6 py-6">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold text-primary-700">MedSchedule</h1>
-          <Link to="/login">
+          <Link to="/auth">
             <Button variant="outline" className="font-medium">
               Login do Médico
             </Button>
