@@ -37,6 +37,8 @@ const Auth = () => {
           title: "Sucesso",
           description: "Login realizado com sucesso!",
         });
+        
+        navigate("/dashboard");
       } else {
         const { error } = await supabase.auth.signUp({
           email: formData.email,
@@ -54,11 +56,19 @@ const Auth = () => {
 
         toast({
           title: "Conta criada",
-          description: "Sua conta foi criada com sucesso!",
+          description: "Sua conta foi criada com sucesso! Faça login para continuar.",
         });
+        
+        // Limpar o formulário e mostrar a tela de login
+        setFormData({
+          email: "",
+          password: "",
+          firstName: "",
+          lastName: "",
+          specialty: "",
+        });
+        setIsLogin(true);
       }
-
-      navigate("/dashboard");
     } catch (error: any) {
       toast({
         title: "Erro",
