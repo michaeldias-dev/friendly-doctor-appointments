@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface NewRecordForm {
   patientName: string;
@@ -16,10 +18,43 @@ interface NewRecordForm {
 
 const NewRecord = () => {
   const form = useForm<NewRecordForm>();
+  const { toast } = useToast();
 
-  const onSubmit = (data: NewRecordForm) => {
-    console.log(data);
-    // Aqui você implementaria a lógica para salvar o prontuário
+  const onSubmit = async (data: NewRecordForm) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        throw new Error("Usuário não autenticado");
+      }
+
+      const { error } = await supabase
+        .from("medical_records")
+        .insert({
+          doctor_id: user.id,
+          patient_name: data.patientName,
+          diagnosis: data.diagnosis,
+          treatment: data.treatment,
+          notes: data.notes,
+          next_visit: data.nextVisit || null,
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Sucesso",
+        description: "Prontuário criado com sucesso!",
+      });
+
+      // Limpar o formulário
+      form.reset();
+    } catch (error: any) {
+      toast({
+        title: "Erro",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
