@@ -33,19 +33,20 @@ const Profile = () => {
         return;
       }
 
-      const { data: profile } = await supabase
+      // Usando type assertion para garantir que o tipo está correto
+      const { data: profileData } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", user.id)
         .single();
 
-      if (profile) {
+      if (profileData) {
         setProfile({
-          firstName: profile.first_name || "",
-          lastName: profile.last_name || "",
+          firstName: profileData.first_name || "",
+          lastName: profileData.last_name || "",
           email: user.email || "",
-          specialty: profile.specialty || "",
-          bio: profile.bio || "",
+          specialty: profileData.specialty || "",
+          bio: profileData.bio || "", // Agora o campo bio existe na tabela
         });
       }
     };
