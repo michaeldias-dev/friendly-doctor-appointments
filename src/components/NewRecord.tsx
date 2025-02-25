@@ -16,7 +16,11 @@ interface NewRecordForm {
   nextVisit: string;
 }
 
-const NewRecord = () => {
+interface NewRecordProps {
+  onSuccess?: () => void;
+}
+
+const NewRecord = ({ onSuccess }: NewRecordProps) => {
   const form = useForm<NewRecordForm>();
   const { toast } = useToast();
 
@@ -47,6 +51,7 @@ const NewRecord = () => {
       });
 
       form.reset();
+      onSuccess?.();
     } catch (error: any) {
       toast({
         title: "Erro",

@@ -11,12 +11,14 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import NewRecord from "@/components/NewRecord";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
+import jsPDF from "jspdf";
 
 interface MedicalRecord {
   id: string;
   patient_name: string;
   diagnosis: string;
   treatment: string;
+  notes?: string;
   next_visit: string | null;
   created_at: string;
 }
@@ -55,6 +57,67 @@ const Records = () => {
     loadRecords();
   }, [navigate]);
 
+  const downloadPDF = (record: MedicalRecord) => {
+    const pdf = new jsPDF();
+    const lineHeight = 10;
+    let yPosition = 20;
+
+    // Título
+    pdf.setFontSize(20);
+    pdf.text("Prontuário Médico", 20, yPosition);
+    yPosition += lineHeight * 2;
+
+    // Informações do paciente
+    pdf.setFontSize(12);
+    pdf.text(`Paciente: ${record.patient_name}`, 20, yPosition);
+    yPosition += lineHeight;
+    
+    pdf.text(`Data: ${format(new Date(record.created_at), "d 'de' MMMM, yyyy", { locale: ptBR })}`, 20, yPosition);
+    yPosition += lineHeight * 1.5;
+
+    // Diagnóstico
+    pdf.setFontSize(14);
+    pdf.text("Diagnóstico:", 20, yPosition);
+    yPosition += lineHeight;
+    pdf.setFontSize(12);
+    pdf.text(record.diagnosis, 20, yPosition);
+    yPosition += lineHeight * 1.5;
+
+    // Tratamento
+    pdf.setFontSize(14);
+    pdf.text("Tratamento:", 20, yPosition);
+    yPosition += lineHeight;
+    pdf.setFontSize(12);
+    pdf.text(record.treatment, 20, yPosition);
+    yPosition += lineHeight * 1.5;
+
+    // Observações (se houver)
+    if (record.notes) {
+      pdf.setFontSize(14);
+      pdf.text("Observações:", 20, yPosition);
+      yPosition += lineHeight;
+      pdf.setFontSize(12);
+      pdf.text(record.notes, 20, yPosition);
+      yPosition += lineHeight * 1.5;
+    }
+
+    // Próxima visita
+    pdf.setFontSize(14);
+    pdf.text("Próxima Visita:", 20, yPosition);
+    yPosition += lineHeight;
+    pdf.setFontSize(12);
+    pdf.text(
+      record.next_visit 
+        ? format(new Date(record.next_visit), "d 'de' MMMM, yyyy", { locale: ptBR })
+        : "Não agendada",
+      20,
+      yPosition
+    );
+
+    // Download do PDF
+    pdf.save(`prontuario-${record.patient_name.toLowerCase().replace(/\s+/g, '-')}.pdf`);
+  };
+
   const filteredRecords = records.filter(record =>
     record.patient_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -74,7 +137,7 @@ const Records = () => {
               <Button>Novo Prontuário</Button>
             </SheetTrigger>
             <SheetContent className="w-full sm:max-w-xl">
-              <NewRecord />
+              <NewRecord onSuccess={loadRecords} />
             </SheetContent>
           </Sheet>
         </div>
@@ -111,7 +174,12 @@ const Records = () => {
                         Criado em {formatDate(record.created_at)}
                       </p>
                     </div>
-                    <Button variant="outline">Baixar PDF</Button>
+                    <Button 
+                      variant="outline"
+                      onClick={() => downloadPDF(record)}
+                    >
+                      Baixar PDF
+                    </Button>
                   </div>
                 </CardHeader>
                 <CardContent>
