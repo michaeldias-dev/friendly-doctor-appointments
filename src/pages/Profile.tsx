@@ -1,15 +1,13 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import AppLayout from "@/components/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
+import { ProfileForm } from "@/components/profile/ProfileForm";
+import { ProfileStats } from "@/components/profile/ProfileStats";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -21,6 +19,7 @@ const Profile = () => {
     specialty: "",
     bio: "",
   });
+  
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -33,7 +32,6 @@ const Profile = () => {
         return;
       }
 
-      // Usando type assertion para garantir que o tipo está correto
       const { data: profileData } = await supabase
         .from("profiles")
         .select("*")
@@ -46,7 +44,7 @@ const Profile = () => {
           lastName: profileData.last_name || "",
           email: user.email || "",
           specialty: profileData.specialty || "",
-          bio: profileData.bio || "", // Agora o campo bio existe na tabela
+          bio: profileData.bio || "",
         });
       }
     };
@@ -95,6 +93,10 @@ const Profile = () => {
     }
   };
 
+  const handleProfileChange = (field: string, value: string) => {
+    setProfile((prev) => ({ ...prev, [field]: value }));
+  };
+
   return (
     <AppLayout>
       <div className="animate-in">
@@ -115,97 +117,17 @@ const Profile = () => {
               <CardTitle>Informações Pessoais</CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">Nome</Label>
-                    <Input
-                      id="firstName"
-                      value={profile.firstName}
-                      onChange={(e) =>
-                        setProfile({ ...profile, firstName: e.target.value })
-                      }
-                      readOnly={!isEditing}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">Sobrenome</Label>
-                    <Input
-                      id="lastName"
-                      value={profile.lastName}
-                      onChange={(e) =>
-                        setProfile({ ...profile, lastName: e.target.value })
-                      }
-                      readOnly={!isEditing}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={profile.email}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="specialization">Especialização</Label>
-                  <Input
-                    id="specialization"
-                    value={profile.specialty}
-                    onChange={(e) =>
-                      setProfile({ ...profile, specialty: e.target.value })
-                    }
-                    readOnly={!isEditing}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="bio">Biografia</Label>
-                  <Textarea
-                    id="bio"
-                    value={profile.bio}
-                    onChange={(e) =>
-                      setProfile({ ...profile, bio: e.target.value })
-                    }
-                    readOnly={!isEditing}
-                    className="h-32"
-                  />
-                </div>
-
-                {isEditing && (
-                  <Button type="submit" disabled={isLoading}>
-                    {isLoading ? "Salvando..." : "Salvar Alterações"}
-                  </Button>
-                )}
-              </form>
+              <ProfileForm
+                profile={profile}
+                isEditing={isEditing}
+                isLoading={isLoading}
+                onSubmit={handleSubmit}
+                onChange={handleProfileChange}
+              />
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Estatísticas</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <p className="text-sm text-gray-500">Total de Pacientes</p>
-                  <p className="text-2xl font-bold">145</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Consultas Este Mês</p>
-                  <p className="text-2xl font-bold">48</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Anos de Experiência</p>
-                  <p className="text-2xl font-bold">15</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <ProfileStats />
         </div>
       </div>
     </AppLayout>
