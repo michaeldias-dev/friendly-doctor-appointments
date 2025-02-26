@@ -6,6 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface NewAppointmentForm {
   patientName: string;
@@ -15,108 +17,147 @@ interface NewAppointmentForm {
   notes: string;
 }
 
-const NewAppointment = () => {
-  const form = useForm<NewAppointmentForm>();
+interface NewAppointmentProps {
+  onSuccess?: () => void;
+}
 
-  const onSubmit = (data: NewAppointmentForm) => {
-    console.log(data);
-    // Aqui você implementaria a lógica para salvar a consulta
+const NewAppointment = ({ onSuccess }: NewAppointmentProps) => {
+  const form = useForm<NewAppointmentForm>();
+  const { toast } = useToast();
+
+  const onSubmit = async (data: NewAppointmentForm) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        throw new Error("Usuário não autenticado");
+      }
+
+      const { error } = await supabase
+        .from("appointments")
+        .insert({
+          doctor_id: user.id,
+          patient_name: data.patientName,
+          date: data.date,
+          time: data.time,
+          type: data.type,
+          notes: data.notes,
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Sucesso",
+        description: "Consulta agendada com sucesso!",
+      });
+
+      form.reset();
+      onSuccess?.();
+    } catch (error: any) {
+      toast({
+        title: "Erro",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
-    <div className="space-y-6">
-      <SheetHeader>
+    <div className="h-full flex flex-col">
+      <SheetHeader className="flex-none">
         <SheetTitle>Nova Consulta</SheetTitle>
       </SheetHeader>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="patientName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome do Paciente</FormLabel>
-                <FormControl>
-                  <Input placeholder="Digite o nome do paciente" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-
-          <div className="grid grid-cols-2 gap-4">
+      <div className="flex-1 overflow-y-auto mt-6">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="date"
+              name="patientName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Data</FormLabel>
+                  <FormLabel>Nome do Paciente</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} />
+                    <Input placeholder="Digite o nome do paciente" {...field} />
                   </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Data</FormLabel>
+                    <FormControl>
+                      <Input type="date" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="time"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Horário</FormLabel>
+                    <FormControl>
+                      <Input type="time" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tipo de Consulta</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o tipo de consulta" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="routine">Consulta de Rotina</SelectItem>
+                      <SelectItem value="return">Retorno</SelectItem>
+                      <SelectItem value="exam">Exames</SelectItem>
+                      <SelectItem value="emergency">Emergência</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormItem>
               )}
             />
 
             <FormField
               control={form.control}
-              name="time"
+              name="notes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Horário</FormLabel>
+                  <FormLabel>Observações</FormLabel>
                   <FormControl>
-                    <Input type="time" {...field} />
+                    <Textarea 
+                      placeholder="Digite observações sobre a consulta"
+                      className="min-h-[120px]"
+                      {...field}
+                    />
                   </FormControl>
                 </FormItem>
               )}
             />
-          </div>
 
-          <FormField
-            control={form.control}
-            name="type"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tipo de Consulta</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione o tipo de consulta" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="routine">Consulta de Rotina</SelectItem>
-                    <SelectItem value="return">Retorno</SelectItem>
-                    <SelectItem value="exam">Exames</SelectItem>
-                    <SelectItem value="emergency">Emergência</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="notes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Observações</FormLabel>
-                <FormControl>
-                  <Textarea 
-                    placeholder="Digite observações sobre a consulta"
-                    className="min-h-[120px]"
-                    {...field}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-
-          <div className="flex justify-end gap-3 pt-4">
-            <Button type="submit">Agendar Consulta</Button>
-          </div>
-        </form>
-      </Form>
+            <div className="flex justify-end gap-3 pt-4 pb-6">
+              <Button type="submit">Agendar Consulta</Button>
+            </div>
+          </form>
+        </Form>
+      </div>
     </div>
   );
 };
