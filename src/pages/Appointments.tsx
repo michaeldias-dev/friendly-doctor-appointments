@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -20,6 +21,20 @@ interface Appointment {
   type: "routine" | "return" | "exam" | "emergency";
   notes: string | null;
   created_at: string;
+  updated_at: string;
+  doctor_id: string;
+}
+
+type AppointmentFromDB = {
+  id: string;
+  patient_name: string;
+  date: string;
+  time: string;
+  type: string;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  doctor_id: string;
 }
 
 const appointmentTypes = {
@@ -53,10 +68,13 @@ const Appointments = () => {
 
       if (error) throw error;
 
-      const validAppointments = (data || []).filter((apt): apt is Appointment => {
+      const validAppointments = (data || []).filter((apt): apt is AppointmentFromDB => {
         const validTypes = ["routine", "return", "exam", "emergency"];
         return validTypes.includes(apt.type);
-      });
+      }).map((apt): Appointment => ({
+        ...apt,
+        type: apt.type as "routine" | "return" | "exam" | "emergency"
+      }));
 
       setAppointments(validAppointments);
     } catch (error) {
