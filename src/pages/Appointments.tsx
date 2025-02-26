@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -54,7 +53,12 @@ const Appointments = () => {
 
       if (error) throw error;
 
-      setAppointments(data || []);
+      const validAppointments = (data || []).filter((apt): apt is Appointment => {
+        const validTypes = ["routine", "return", "exam", "emergency"];
+        return validTypes.includes(apt.type);
+      });
+
+      setAppointments(validAppointments);
     } catch (error) {
       console.error("Erro ao carregar consultas:", error);
     } finally {
