@@ -6,7 +6,7 @@ import AppLayout from "@/components/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import NewAppointment from "@/components/NewAppointment";
 import { supabase } from "@/integrations/supabase/client";
 import { Eye } from "lucide-react";
@@ -18,8 +18,8 @@ interface Appointment {
   patient_name: string;
   date: string;
   time: string;
-  type: string;
-  notes: string;
+  type: "routine" | "return" | "exam" | "emergency";
+  notes: string | null;
   created_at: string;
 }
 
@@ -28,7 +28,7 @@ const appointmentTypes = {
   return: "Retorno",
   exam: "Exames",
   emergency: "Emergência",
-};
+} as const;
 
 const Appointments = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -48,7 +48,7 @@ const Appointments = () => {
 
       const { data, error } = await supabase
         .from("appointments")
-        .select("*")
+        .select()
         .order("date", { ascending: true })
         .order("time", { ascending: true });
 
@@ -124,7 +124,7 @@ const Appointments = () => {
                       <div>
                         <p className="font-medium">{appointment.patient_name}</p>
                         <p className="text-sm text-gray-500">
-                          {appointmentTypes[appointment.type as keyof typeof appointmentTypes]}
+                          {appointmentTypes[appointment.type]}
                         </p>
                       </div>
                       <div className="flex items-center gap-4">
@@ -168,7 +168,7 @@ const Appointments = () => {
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-500">Tipo de Consulta</h3>
-                  <p>{appointmentTypes[selectedAppointment.type as keyof typeof appointmentTypes]}</p>
+                  <p>{appointmentTypes[selectedAppointment.type]}</p>
                 </div>
                 {selectedAppointment.notes && (
                   <div>

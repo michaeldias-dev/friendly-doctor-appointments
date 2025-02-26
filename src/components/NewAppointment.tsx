@@ -13,8 +13,8 @@ interface NewAppointmentForm {
   patientName: string;
   date: string;
   time: string;
-  type: string;
-  notes: string;
+  type: "routine" | "return" | "exam" | "emergency";
+  notes?: string;
 }
 
 interface NewAppointmentProps {
@@ -35,14 +35,14 @@ const NewAppointment = ({ onSuccess }: NewAppointmentProps) => {
 
       const { error } = await supabase
         .from("appointments")
-        .insert({
+        .insert([{
           doctor_id: user.id,
           patient_name: data.patientName,
           date: data.date,
           time: data.time,
           type: data.type,
-          notes: data.notes,
-        });
+          notes: data.notes || null,
+        }]);
 
       if (error) throw error;
 
