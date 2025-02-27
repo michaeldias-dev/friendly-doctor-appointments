@@ -1,28 +1,31 @@
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
-import Records from "./pages/Records";
-import Appointments from "./pages/Appointments";
 import NotFound from "./pages/NotFound";
+import Appointments from "./pages/Appointments";
+import Records from "./pages/Records";
 import Auth from "./pages/Auth";
-import { Toaster } from "./components/ui/toaster";
+import AdminUsers from "./pages/AdminUsers";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/records" element={<Records />} />
         <Route path="/appointments" element={<Appointments />} />
+        <Route path="/records" element={<Records />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
+        <Route path="/login" element={<Navigate to="/auth" replace />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
-    </Router>
+    </BrowserRouter>
   );
 }
 
