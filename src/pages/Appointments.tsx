@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { format } from "date-fns";
+import { format, isSameDay } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import AppLayout from "@/components/AppLayout";
 import { Button } from "@/components/ui/button";
@@ -49,6 +49,7 @@ const Appointments = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+  const [appointmentDates, setAppointmentDates] = useState<Date[]>([]);
   const navigate = useNavigate();
 
   const loadAppointments = async () => {
@@ -77,6 +78,13 @@ const Appointments = () => {
       }));
 
       setAppointments(validAppointments);
+      
+      // Extrair datas únicas para marcar no calendário
+      const uniqueDates = Array.from(new Set(
+        validAppointments.map(apt => apt.date)
+      )).map(dateStr => new Date(dateStr));
+      
+      setAppointmentDates(uniqueDates);
     } catch (error) {
       console.error("Erro ao carregar consultas:", error);
     } finally {
@@ -86,12 +94,35 @@ const Appointments = () => {
 
   useEffect(() => {
     loadAppointments();
+    
+    // Configurar listener para atualizações em tempo real
+    const channel = supabase
+      .channel('appointments-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'appointments' },
+        () => {
+          loadAppointments();
+        }
+      )
+      .subscribe();
+      
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [navigate]);
 
   const filteredAppointments = appointments.filter(appointment => {
     if (!date) return false;
     return appointment.date === format(date, "yyyy-MM-dd");
   });
+  
+  // Função para destacar dias com consultas no calendário
+  const isDayWithAppointments = (day: Date) => {
+    return appointmentDates.some(appointmentDate => 
+      isSameDay(day, appointmentDate)
+    );
+  };
 
   return (
     <AppLayout>
@@ -119,6 +150,17 @@ const Appointments = () => {
                 selected={date}
                 onSelect={setDate}
                 className="rounded-md border"
+                modifiers={{
+                  booked: (date) => isDayWithAppointments(date)
+                }}
+                modifiersStyles={{
+                  booked: {
+                    fontWeight: 'bold',
+                    backgroundColor: '#e5f6ff',
+                    borderColor: '#0ea5e9',
+                    color: '#0369a1'
+                  }
+                }}
               />
             </CardContent>
           </Card>
