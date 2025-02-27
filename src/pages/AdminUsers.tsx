@@ -69,7 +69,6 @@ const AdminUsers = () => {
       if (profilesError) throw profilesError;
 
       // Buscar emails separadamente
-      const userIds = profilesData.map(profile => profile.id);
       const { data: authData, error: authError } = await supabase.auth.admin.listUsers();
       
       if (authError) {
@@ -87,7 +86,9 @@ const AdminUsers = () => {
       const userEmailMap = new Map();
       if (authData?.users) {
         authData.users.forEach(user => {
-          userEmailMap.set(user.id, user.email);
+          if (user && typeof user === 'object' && 'id' in user && 'email' in user) {
+            userEmailMap.set(user.id, user.email);
+          }
         });
       }
 
