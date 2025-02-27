@@ -37,13 +37,13 @@ const Auth = () => {
         // Verificar se o usuário está aprovado
         const { data: profileData, error: profileError } = await supabase
           .from('profiles')
-          .select('approved')
+          .select('*')
           .eq('id', data.user.id)
           .single();
 
         if (profileError) throw profileError;
 
-        if (!profileData.approved) {
+        if (profileData.approved === false) {
           await supabase.auth.signOut();
           throw new Error("Sua conta ainda está em análise. Você receberá um email quando for aprovada.");
         }
@@ -63,7 +63,6 @@ const Auth = () => {
               first_name: formData.firstName,
               last_name: formData.lastName,
               specialty: formData.specialty,
-              approved: false, // Todos os novos usuários começam como não aprovados
             },
           },
         });

@@ -10,9 +10,9 @@ import { CheckCircle, XCircle } from "lucide-react";
 
 interface UserProfile {
   id: string;
-  first_name: string;
-  last_name: string;
-  specialty: string;
+  first_name: string | null;
+  last_name: string | null;
+  specialty: string | null;
   email: string;
   approved: boolean;
   created_at: string;
@@ -60,18 +60,41 @@ const AdminUsers = () => {
 
   const loadUsers = async () => {
     try {
-      // Carregar usuários pendentes de aprovação
-      const { data, error } = await supabase
+      // Carregar usuários
+      const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
-        .select('id, first_name, last_name, specialty, approved, created_at, email:auth.users(email)')
+        .select('id, first_name, last_name, specialty, approved, created_at')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (profilesError) throw profilesError;
 
-      // Formatar os dados para mostrar o email
-      const formattedUsers = data.map(user => ({
-        ...user,
-        email: user.email ? (user.email as any).email : 'Email não disponível'
+      // Buscar emails separadamente
+      const userIds = profilesData.map(profile => profile.id);
+      const { data: authData, error: authError } = await supabase.auth.admin.listUsers();
+      
+      if (authError) {
+        console.error("Erro ao buscar dados de autenticação:", authError);
+        // Se não conseguirmos buscar emails, pelo menos mostramos os outros dados
+        const formattedUsers = profilesData.map(profile => ({
+          ...profile,
+          email: 'Email não disponível'
+        }));
+        setUsers(formattedUsers);
+        return;
+      }
+
+      // Mapear emails para perfis
+      const userEmailMap = new Map();
+      if (authData?.users) {
+        authData.users.forEach(user => {
+          userEmailMap.set(user.id, user.email);
+        });
+      }
+
+      // Combinar dados
+      const formattedUsers = profilesData.map(profile => ({
+        ...profile,
+        email: userEmailMap.get(profile.id) || 'Email não disponível'
       }));
 
       setUsers(formattedUsers);
@@ -108,15 +131,6 @@ const AdminUsers = () => {
 
       if (error) throw error;
 
-      // Buscar email do usuário
-      const { data: userData, error: userError } = await supabase
-        .from('profiles')
-        .select('email:auth.users(email), first_name')
-        .eq('id', userId)
-        .single();
-
-      if (userError) throw userError;
-
       // Atualizar a lista de usuários
       await loadUsers();
       
@@ -129,7 +143,10 @@ const AdminUsers = () => {
       
       // No mundo real, aqui você enviaria um email notificando o usuário
       // sobre a aprovação ou rejeição
-      console.log(`Email seria enviado para ${(userData.email as any).email} informando que foi ${approve ? 'aprovado' : 'rejeitado'}`);
+      const user = users.find(u => u.id === userId);
+      if (user) {
+        console.log(`Email seria enviado para ${user.email} informando que foi ${approve ? 'aprovado' : 'rejeitado'}`);
+      }
       
     } catch (error: any) {
       toast({
