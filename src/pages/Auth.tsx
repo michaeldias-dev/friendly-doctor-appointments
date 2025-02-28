@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -53,7 +52,12 @@ const Auth = () => {
           description: "Login realizado com sucesso!",
         });
         
-        navigate("/dashboard");
+        // Redirecionar admin para a página de admin, médicos para o dashboard
+        if (profileData.role === 'admin') {
+          navigate("/admin/users");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         const { error } = await supabase.auth.signUp({
           email: formData.email,

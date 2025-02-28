@@ -11,6 +11,7 @@ export interface UserProfile {
   email: string;
   approved: boolean;
   created_at: string;
+  role: string | null;
 }
 
 interface UsersListProps {
@@ -31,21 +32,31 @@ const UsersList = ({ users, isLoading, onApprove }: UsersListProps) => {
   return (
     <CardContent>
       <div className="space-y-4">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 font-medium text-sm text-gray-500 pb-2 border-b">
+        <div className="grid grid-cols-1 lg:grid-cols-6 gap-4 font-medium text-sm text-gray-500 pb-2 border-b">
           <div className="lg:col-span-2">Nome</div>
           <div>Email</div>
           <div>Especialidade</div>
+          <div>Tipo</div>
           <div className="text-right">Ações</div>
         </div>
         
         {users.map(user => (
-          <div key={user.id} className="grid grid-cols-1 lg:grid-cols-5 gap-4 items-center py-2 border-b last:border-0">
+          <div key={user.id} className="grid grid-cols-1 lg:grid-cols-6 gap-4 items-center py-2 border-b last:border-0">
             <div className="lg:col-span-2">
               <p className="font-medium">{user.first_name} {user.last_name}</p>
               <p className="text-xs text-gray-500 lg:hidden">{user.email}</p>
             </div>
             <div className="hidden lg:block">{user.email}</div>
             <div>{user.specialty}</div>
+            <div>
+              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                user.role === 'admin' 
+                  ? 'bg-purple-100 text-purple-800' 
+                  : 'bg-blue-100 text-blue-800'
+              }`}>
+                {user.role === 'admin' ? 'Admin' : 'Médico'}
+              </span>
+            </div>
             <div className="flex justify-end gap-2">
               {user.approved ? (
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">

@@ -8,7 +8,16 @@ const AdminUsers = () => {
   const { users, isLoading, isAdmin, handleApprove } = useAdminUsers();
 
   if (!isAdmin) {
-    return <div>Verificando permissões...</div>;
+    return (
+      <AppLayout>
+        <div className="flex items-center justify-center h-[50vh]">
+          <div className="text-center">
+            <h2 className="text-xl font-bold text-gray-700 mb-2">Verificando permissões...</h2>
+            <p className="text-gray-500">Você deve ser administrador para acessar esta página</p>
+          </div>
+        </div>
+      </AppLayout>
+    );
   }
 
   return (

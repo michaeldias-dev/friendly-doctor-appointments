@@ -1,5 +1,5 @@
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Calendar,
@@ -7,8 +7,10 @@ import {
   Layout,
   LogOut,
   User,
+  Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -16,6 +18,24 @@ interface AppLayoutProps {
 
 const AppLayout = ({ children }: AppLayoutProps) => {
   const location = useLocation();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkUserRole = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+        
+        setIsAdmin(data?.role === 'admin');
+      }
+    };
+    
+    checkUserRole();
+  }, []);
 
   const navigation = [
     { name: "Painel", href: "/dashboard", icon: Layout },
@@ -23,6 +43,11 @@ const AppLayout = ({ children }: AppLayoutProps) => {
     { name: "Prontuários", href: "/records", icon: ClipboardList },
     { name: "Perfil", href: "/profile", icon: User },
   ];
+
+  // Adiciona o item de Administração apenas para administradores
+  if (isAdmin) {
+    navigation.push({ name: "Administração", href: "/admin/users", icon: Users });
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

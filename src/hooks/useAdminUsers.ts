@@ -28,16 +28,19 @@ export const useAdminUsers = () => {
       return false;
     }
 
-    // Na vida real, você teria uma tabela de roles ou uma flag específica para isso
-    // Para simplificar, vamos considerar o primeiro usuário como admin
-    const { data: firstUser } = await supabase
+    // Agora verificamos a role diretamente no perfil do usuário
+    const { data: userProfile, error: profileError } = await supabase
       .from('profiles')
-      .select('id')
-      .order('created_at', { ascending: true })
-      .limit(1)
+      .select('role')
+      .eq('id', user.id)
       .single();
 
-    const isUserAdmin = firstUser?.id === user.id;
+    if (profileError) {
+      console.error("Erro ao verificar perfil do usuário:", profileError);
+      return false;
+    }
+
+    const isUserAdmin = userProfile?.role === 'admin';
     setIsAdmin(isUserAdmin);
     
     if (!isUserAdmin) {
@@ -57,7 +60,7 @@ export const useAdminUsers = () => {
       // Carregar usuários
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
-        .select('id, first_name, last_name, specialty, approved, created_at')
+        .select('id, first_name, last_name, specialty, approved, created_at, role')
         .order('created_at', { ascending: false });
 
       if (profilesError) throw profilesError;
