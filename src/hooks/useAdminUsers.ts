@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -55,7 +55,8 @@ export const useAdminUsers = () => {
     return isUserAdmin;
   };
 
-  const loadUsers = async () => {
+  const loadUsers = useCallback(async () => {
+    setIsLoading(true);
     try {
       // Carregar usuários
       const { data: profilesData, error: profilesError } = await supabase
@@ -106,7 +107,7 @@ export const useAdminUsers = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [toast]);
 
   const handleApprove = async (userId: string, approve: boolean) => {
     try {
@@ -144,6 +145,29 @@ export const useAdminUsers = () => {
     }
   };
 
+  // Configurar listener para atualizações da tabela profiles
+  useEffect(() => {
+    const setupRealtimeListener = async () => {
+      const channel = supabase
+        .channel('admin-users-changes')
+        .on('postgres_changes', 
+          { event: '*', schema: 'public', table: 'profiles' }, 
+          () => {
+            // Recarregar a lista quando houver mudanças
+            loadUsers();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    };
+
+    setupRealtimeListener();
+  }, [loadUsers]);
+
+  // Verificar permissões de admin e carregar usuários
   useEffect(() => {
     const init = async () => {
       const isUserAdmin = await checkAdmin();
@@ -153,12 +177,24 @@ export const useAdminUsers = () => {
     };
     
     init();
-  }, [navigate]);
+
+    // Configurar um intervalo para atualizar a lista de usuários periodicamente
+    const intervalId = setInterval(() => {
+      checkAdmin().then(isAdmin => {
+        if (isAdmin) loadUsers();
+      });
+    }, 30000); // Atualizar a cada 30 segundos
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [loadUsers, navigate]);
 
   return {
     users,
     isLoading,
     isAdmin,
-    handleApprove
+    handleApprove,
+    refreshUsers: loadUsers
   };
 };
