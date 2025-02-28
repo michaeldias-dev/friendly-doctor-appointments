@@ -5,6 +5,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { UserProfile } from "@/components/admin/UsersList";
 
+// Definição de tipo para os usuários retornados pela API Auth do Supabase
+interface AuthUser {
+  id: string;
+  email: string;
+  [key: string]: any; // Para outras propriedades que possam existir
+}
+
 export const useAdminUsers = () => {
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -70,12 +77,12 @@ export const useAdminUsers = () => {
       }
 
       // Mapear emails para perfis
-      const userEmailMap = new Map();
+      const userEmailMap = new Map<string, string>();
+      
+      // Tipo explícito para usuarios da auth para resolver o problema de tipagem
       if (authData?.users) {
-        authData.users.forEach(user => {
-          if (user && typeof user === 'object' && 'id' in user && 'email' in user) {
-            userEmailMap.set(user.id, user.email);
-          }
+        (authData.users as AuthUser[]).forEach(user => {
+          userEmailMap.set(user.id, user.email);
         });
       }
 
