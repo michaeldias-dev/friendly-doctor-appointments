@@ -2,7 +2,7 @@
 import { useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { UserProfile } from "@/components/admin/UsersList";
+import { UserProfile } from "@/types/user";
 
 // Definição de tipo para os usuários retornados pela API Auth do Supabase
 interface AuthUser {

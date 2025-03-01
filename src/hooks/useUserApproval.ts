@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { UserProfile } from "@/components/admin/UsersList";
+import { UserProfile } from "@/types/user";
 
 export const useUserApproval = (users: UserProfile[], onRefresh: () => Promise<void>) => {
   const { toast } = useToast();
