@@ -58,7 +58,7 @@ export const useAdminUsers = () => {
   const loadUsers = useCallback(async () => {
     setIsLoading(true);
     try {
-      // Carregar TODOS os perfis de usuários da tabela profiles incluindo pendentes
+      // Carregar TODOS os perfis de usuários da tabela profiles, independentemente do status de aprovação
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
         .select('id, first_name, last_name, specialty, approved, created_at, role')
@@ -105,6 +105,7 @@ export const useAdminUsers = () => {
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       });
 
+      console.log("Perfis carregados:", sortedUsers);
       setUsers(sortedUsers);
     } catch (error) {
       console.error("Erro ao carregar usuários:", error);
@@ -161,8 +162,8 @@ export const useAdminUsers = () => {
         .channel('admin-users-changes')
         .on('postgres_changes', 
           { event: '*', schema: 'public', table: 'profiles' }, 
-          () => {
-            console.log("Mudança detectada na tabela profiles");
+          (payload) => {
+            console.log("Mudança detectada na tabela profiles:", payload);
             // Recarregar a lista quando houver mudanças
             loadUsers();
           }

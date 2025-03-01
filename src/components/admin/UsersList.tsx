@@ -20,7 +20,7 @@ export interface UserProfile {
   last_name: string | null;
   specialty: string | null;
   email: string;
-  approved: boolean;
+  approved: boolean | null;
   created_at: string;
   role: string | null;
 }
@@ -65,8 +65,8 @@ const UsersList = ({ users, isLoading, onApprove }: UsersListProps) => {
   }
 
   // Separar usuários em pendentes e aprovados para melhor visualização
-  const pendingUsers = users.filter(user => !user.approved);
-  const approvedUsers = users.filter(user => user.approved);
+  const pendingUsers = users.filter(user => user.approved !== true);
+  const approvedUsers = users.filter(user => user.approved === true);
 
   return (
     <CardContent>
