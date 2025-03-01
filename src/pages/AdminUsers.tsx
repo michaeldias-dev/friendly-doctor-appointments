@@ -22,11 +22,21 @@ const AdminUsers = () => {
     );
   }
 
+  // Contagem de usuários pendentes para mostrar no badge
+  const pendingCount = users.filter(user => !user.approved).length;
+
   return (
     <AppLayout>
       <div className="animate-in">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Administração de Usuários</h1>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Administração de Usuários</h1>
+            {pendingCount > 0 && (
+              <p className="text-amber-600 text-sm mt-1">
+                Você tem {pendingCount} {pendingCount === 1 ? 'usuário' : 'usuários'} pendente{pendingCount !== 1 && 's'} de aprovação
+              </p>
+            )}
+          </div>
           <Button 
             variant="outline" 
             size="sm" 
@@ -34,7 +44,7 @@ const AdminUsers = () => {
             disabled={isLoading}
             className="flex items-center gap-2"
           >
-            <RefreshCw className="h-4 w-4" />
+            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
             Atualizar
           </Button>
         </div>

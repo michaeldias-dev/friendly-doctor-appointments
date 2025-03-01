@@ -58,7 +58,7 @@ export const useAdminUsers = () => {
   const loadUsers = useCallback(async () => {
     setIsLoading(true);
     try {
-      // Carregar usuários
+      // Carregar perfis de usuários da tabela profiles
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
         .select('id, first_name, last_name, specialty, approved, created_at, role')
@@ -66,7 +66,7 @@ export const useAdminUsers = () => {
 
       if (profilesError) throw profilesError;
 
-      // Buscar emails separadamente
+      // Buscar emails separadamente da API de autenticação
       const { data: authData, error: authError } = await supabase.auth.admin.listUsers();
       
       if (authError) {
@@ -80,23 +80,32 @@ export const useAdminUsers = () => {
         return;
       }
 
-      // Mapear emails para perfis
+      // Mapear emails para perfis usando um Map para eficiência
       const userEmailMap = new Map<string, string>();
       
-      // Tipo explícito para usuarios da auth para resolver o problema de tipagem
       if (authData?.users) {
         (authData.users as AuthUser[]).forEach(user => {
           userEmailMap.set(user.id, user.email);
         });
       }
 
-      // Combinar dados
+      // Combinar dados de perfil com emails
       const formattedUsers = profilesData.map(profile => ({
         ...profile,
         email: userEmailMap.get(profile.id) || 'Email não disponível'
       }));
 
-      setUsers(formattedUsers);
+      // Ordenar usuários - pendentes primeiro, depois por data mais recente
+      const sortedUsers = formattedUsers.sort((a, b) => {
+        // Usuários não aprovados primeiro
+        if (a.approved !== b.approved) {
+          return a.approved ? 1 : -1;
+        }
+        // Depois por data mais recente
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      });
+
+      setUsers(sortedUsers);
     } catch (error) {
       console.error("Erro ao carregar usuários:", error);
       toast({
