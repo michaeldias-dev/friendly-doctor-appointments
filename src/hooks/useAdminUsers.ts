@@ -58,7 +58,7 @@ export const useAdminUsers = () => {
   const loadUsers = useCallback(async () => {
     setIsLoading(true);
     try {
-      // Carregar perfis de usuários da tabela profiles
+      // Carregar TODOS os perfis de usuários da tabela profiles incluindo pendentes
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
         .select('id, first_name, last_name, specialty, approved, created_at, role')
@@ -97,10 +97,10 @@ export const useAdminUsers = () => {
 
       // Ordenar usuários - pendentes primeiro, depois por data mais recente
       const sortedUsers = formattedUsers.sort((a, b) => {
-        // Usuários não aprovados primeiro
-        if (a.approved !== b.approved) {
-          return a.approved ? 1 : -1;
-        }
+        // Usuários não aprovados primeiro (se approved é null ou false)
+        if ((a.approved === null || a.approved === false) && (b.approved === true)) return -1;
+        if ((a.approved === true) && (b.approved === null || b.approved === false)) return 1;
+        
         // Depois por data mais recente
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       });
@@ -162,6 +162,7 @@ export const useAdminUsers = () => {
         .on('postgres_changes', 
           { event: '*', schema: 'public', table: 'profiles' }, 
           () => {
+            console.log("Mudança detectada na tabela profiles");
             // Recarregar a lista quando houver mudanças
             loadUsers();
           }
@@ -197,7 +198,7 @@ export const useAdminUsers = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [loadUsers, navigate]);
+  }, [loadUsers]);
 
   return {
     users,

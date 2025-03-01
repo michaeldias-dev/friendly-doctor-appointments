@@ -45,7 +45,7 @@ const AdminUsers = () => {
             className="flex items-center gap-2"
           >
             <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
-            Atualizar
+            Atualizar Lista
           </Button>
         </div>
         
