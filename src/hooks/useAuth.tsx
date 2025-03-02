@@ -113,7 +113,9 @@ export const useAuth = () => {
       if (data && data.user) {
         const { error: profileError } = await supabase
           .from('profiles')
-          .update({ email: formData.email })
+          .update({ 
+            email: formData.email 
+          })
           .eq('id', data.user.id);
         
         if (profileError) {
