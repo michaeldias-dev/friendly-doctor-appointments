@@ -95,7 +95,7 @@ export const useAuth = () => {
 
   const handleRegister = async () => {
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -108,6 +108,18 @@ export const useAuth = () => {
       });
 
       if (error) throw error;
+
+      // Atualizar o perfil do usuário com o email para facilitar a administração
+      if (data && data.user) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .update({ email: formData.email })
+          .eq('id', data.user.id);
+        
+        if (profileError) {
+          console.error("Erro ao atualizar perfil:", profileError);
+        }
+      }
 
       setRegistrationComplete(true);
       resetForm();
