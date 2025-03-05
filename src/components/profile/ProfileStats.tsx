@@ -69,34 +69,34 @@ export function ProfileStats() {
   }, []);
 
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader>
-        <CardTitle>Estatísticas</CardTitle>
+        <CardTitle className="text-xl md:text-2xl">Estatísticas</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          <div>
-            <p className="text-sm text-gray-500">Total de Pacientes</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-primary-50 rounded-lg p-4 text-center">
+            <p className="text-sm text-gray-600 mb-1">Total de Pacientes</p>
             {stats.isLoading ? (
-              <div className="h-8 w-16 bg-gray-200 animate-pulse rounded"></div>
+              <div className="h-8 w-16 mx-auto bg-gray-200 animate-pulse rounded"></div>
             ) : (
-              <p className="text-2xl font-bold">{stats.totalPatients}</p>
+              <p className="text-xl md:text-2xl font-bold text-primary-700">{stats.totalPatients}</p>
             )}
           </div>
-          <div>
-            <p className="text-sm text-gray-500">Consultas Este Mês</p>
+          <div className="bg-primary-50 rounded-lg p-4 text-center">
+            <p className="text-sm text-gray-600 mb-1">Consultas Este Mês</p>
             {stats.isLoading ? (
-              <div className="h-8 w-16 bg-gray-200 animate-pulse rounded"></div>
+              <div className="h-8 w-16 mx-auto bg-gray-200 animate-pulse rounded"></div>
             ) : (
-              <p className="text-2xl font-bold">{stats.appointmentsThisMonth}</p>
+              <p className="text-xl md:text-2xl font-bold text-primary-700">{stats.appointmentsThisMonth}</p>
             )}
           </div>
-          <div>
-            <p className="text-sm text-gray-500">Anos de Experiência</p>
+          <div className="bg-primary-50 rounded-lg p-4 text-center">
+            <p className="text-sm text-gray-600 mb-1">Anos de Experiência</p>
             {stats.isLoading ? (
-              <div className="h-8 w-16 bg-gray-200 animate-pulse rounded"></div>
+              <div className="h-8 w-16 mx-auto bg-gray-200 animate-pulse rounded"></div>
             ) : (
-              <p className="text-2xl font-bold">{stats.yearsOfExperience}</p>
+              <p className="text-xl md:text-2xl font-bold text-primary-700">{stats.yearsOfExperience}</p>
             )}
           </div>
         </div>

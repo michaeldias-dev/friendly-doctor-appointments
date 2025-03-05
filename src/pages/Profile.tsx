@@ -100,34 +100,39 @@ const Profile = () => {
   return (
     <AppLayout>
       <div className="animate-in">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Perfil do Médico</h1>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Perfil do Médico</h1>
           <Button
             variant={isEditing ? "outline" : "default"}
             onClick={() => setIsEditing(!isEditing)}
             disabled={isLoading}
+            className="w-full sm:w-auto"
           >
             {isEditing ? "Cancelar" : "Editar Perfil"}
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="md:col-span-2">
-            <CardHeader>
-              <CardTitle>Informações Pessoais</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ProfileForm
-                profile={profile}
-                isEditing={isEditing}
-                isLoading={isLoading}
-                onSubmit={handleSubmit}
-                onChange={handleProfileChange}
-              />
-            </CardContent>
-          </Card>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 order-2 lg:order-1">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-xl md:text-2xl">Informações Pessoais</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ProfileForm
+                  profile={profile}
+                  isEditing={isEditing}
+                  isLoading={isLoading}
+                  onSubmit={handleSubmit}
+                  onChange={handleProfileChange}
+                />
+              </CardContent>
+            </Card>
+          </div>
 
-          <ProfileStats />
+          <div className="order-1 lg:order-2">
+            <ProfileStats />
+          </div>
         </div>
       </div>
     </AppLayout>
