@@ -22,8 +22,8 @@ const AdminUsers = () => {
     );
   }
 
-  // Contagem de usuários pendentes para mostrar no badge
-  const pendingCount = users.filter(user => !user.approved).length;
+  // Contagem apenas de usuários REALMENTE pendentes (approved === null)
+  const pendingCount = users.filter(user => user.approved === null).length;
 
   return (
     <AppLayout>
