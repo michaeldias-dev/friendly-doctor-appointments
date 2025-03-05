@@ -22,11 +22,15 @@ export const useUserData = () => {
 
       console.log("Profiles loaded:", profilesData);
       
-      // Sort users - pending first, then by most recent date
+      // Sort users - pending first, then rejected, then approved by most recent date
       const sortedUsers = profilesData.sort((a, b) => {
-        // Unapproved users first (if approved is null or false)
-        if ((a.approved === null || a.approved === false) && (b.approved === true)) return -1;
-        if ((a.approved === true) && (b.approved === null || b.approved === false)) return 1;
+        // Pending users (approved is null)
+        if (a.approved === null && b.approved !== null) return -1;
+        if (a.approved !== null && b.approved === null) return 1;
+        
+        // Rejected users (approved is false)
+        if (a.approved === false && b.approved === true) return -1;
+        if (a.approved === true && b.approved === false) return 1;
         
         // Then by most recent date
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();

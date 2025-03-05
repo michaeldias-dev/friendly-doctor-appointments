@@ -8,6 +8,7 @@ import UsersListHeader from "./UsersListHeader";
 import UserSectionHeader from "./UserSectionHeader";
 import PendingUserItem from "./PendingUserItem";
 import ApprovedUserItem from "./ApprovedUserItem";
+import RejectedUserItem from "./RejectedUserItem";
 
 interface UsersListProps {
   users: UserProfile[];
@@ -24,8 +25,9 @@ const UsersList = ({ users, isLoading, onApprove }: UsersListProps) => {
     return <EmptyState />;
   }
 
-  // Separar usuários em pendentes e aprovados para melhor visualização
-  const pendingUsers = users.filter(user => user.approved !== true);
+  // Separar usuários em três categorias: pendentes, rejeitados e aprovados
+  const pendingUsers = users.filter(user => user.approved === null);
+  const rejectedUsers = users.filter(user => user.approved === false);
   const approvedUsers = users.filter(user => user.approved === true);
 
   return (
@@ -43,6 +45,20 @@ const UsersList = ({ users, isLoading, onApprove }: UsersListProps) => {
                 key={user.id} 
                 user={user} 
                 onApprove={onApprove} 
+              />
+            ))}
+          </>
+        )}
+        
+        {/* Seção para usuários rejeitados */}
+        {rejectedUsers.length > 0 && (
+          <>
+            <UserSectionHeader type="rejected" count={rejectedUsers.length} />
+            
+            {rejectedUsers.map(user => (
+              <RejectedUserItem 
+                key={user.id} 
+                user={user} 
               />
             ))}
           </>
