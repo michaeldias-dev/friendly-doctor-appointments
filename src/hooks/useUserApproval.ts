@@ -24,7 +24,8 @@ export const useUserApproval = (users: UserProfile[], onRefresh: () => Promise<v
         title: approve ? "Usuário aprovado" : "Usuário rejeitado",
         description: approve 
           ? "O usuário agora pode acessar o sistema" 
-          : "O acesso do usuário foi negado",
+          : "O acesso do usuário foi negado com sucesso",
+        variant: approve ? "default" : "destructive"
       });
       
       // No mundo real, aqui você enviaria um email notificando o usuário
