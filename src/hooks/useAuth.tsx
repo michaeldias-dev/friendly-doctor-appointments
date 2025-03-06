@@ -109,12 +109,13 @@ export const useAuth = () => {
 
       if (error) throw error;
 
-      // Atualizar o perfil do usuário com o email para facilitar a administração
+      // Atualizar o perfil do usuário com o email e definir approved como null (pendente)
       if (data && data.user) {
         const { error: profileError } = await supabase
           .from('profiles')
           .update({ 
-            email: formData.email 
+            email: formData.email,
+            approved: null // Definir explicitamente como null para indicar "pendente"
           })
           .eq('id', data.user.id);
         
