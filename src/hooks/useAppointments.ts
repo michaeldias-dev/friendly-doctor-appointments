@@ -22,20 +22,51 @@ export const useAppointments = () => {
         return;
       }
 
+      // Verificar se o usuário está aprovado
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("approved")
+        .eq("id", user.id)
+        .single();
+
+      if (profileError) throw profileError;
+
+      if (profileData.approved !== true) {
+        toast({
+          title: "Acesso Negado",
+          description: "Sua conta ainda não foi aprovada.",
+          variant: "destructive",
+        });
+        navigate("/dashboard");
+        return;
+      }
+
       const { data, error } = await supabase
         .from("appointments")
-        .select()
+        .select(`
+          id, 
+          patient_name, 
+          date, 
+          time, 
+          type, 
+          notes, 
+          created_at, 
+          updated_at, 
+          professional_id,
+          profiles(first_name, last_name)
+        `)
         .order("date", { ascending: true })
         .order("time", { ascending: true });
 
       if (error) throw error;
 
-      const validAppointments = (data || []).filter((apt): apt is AppointmentFromDB => {
-        const validTypes = ["routine", "return", "exam", "emergency"];
-        return validTypes.includes(apt.type);
-      }).map((apt): Appointment => ({
+      // Mapear os dados para incluir informações do profissional
+      const validAppointments = (data || []).map((apt): Appointment => ({
         ...apt,
-        type: apt.type as "routine" | "return" | "exam" | "emergency"
+        type: apt.type as "routine" | "return" | "exam" | "emergency",
+        professional_name: apt.profiles ? 
+          `${apt.profiles.first_name || ''} ${apt.profiles.last_name || ''}`.trim() : 
+          'Profissional não encontrado'
       }));
 
       setAppointments(validAppointments);

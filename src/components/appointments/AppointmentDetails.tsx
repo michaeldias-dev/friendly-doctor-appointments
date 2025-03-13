@@ -35,6 +35,10 @@ const AppointmentDetails = ({
               <p>{appointment.patient_name}</p>
             </div>
             <div>
+              <h3 className="font-medium text-gray-500">Profissional</h3>
+              <p>{appointment.professional_name || "Não especificado"}</p>
+            </div>
+            <div>
               <h3 className="font-medium text-gray-500">Data e Hora</h3>
               <p>
                 {format(new Date(appointment.date), "d 'de' MMMM, yyyy", { locale: ptBR })} às{" "}

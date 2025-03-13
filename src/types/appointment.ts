@@ -8,7 +8,12 @@ export interface Appointment {
   notes: string | null;
   created_at: string;
   updated_at: string;
-  doctor_id: string;
+  professional_id: string;
+  professional_name?: string;
+  profiles?: {
+    first_name: string | null;
+    last_name: string | null;
+  };
 }
 
 export type AppointmentFromDB = {
@@ -20,7 +25,11 @@ export type AppointmentFromDB = {
   notes: string | null;
   created_at: string;
   updated_at: string;
-  doctor_id: string;
+  professional_id: string;
+  profiles?: {
+    first_name: string | null;
+    last_name: string | null;
+  };
 }
 
 export type AppointmentTypes = {

@@ -13,10 +13,10 @@ export type Database = {
         Row: {
           created_at: string
           date: string
-          doctor_id: string
           id: string
           notes: string | null
           patient_name: string
+          professional_id: string
           time: string
           type: string
           updated_at: string
@@ -24,10 +24,10 @@ export type Database = {
         Insert: {
           created_at?: string
           date: string
-          doctor_id: string
           id?: string
           notes?: string | null
           patient_name: string
+          professional_id: string
           time: string
           type: string
           updated_at?: string
@@ -35,10 +35,10 @@ export type Database = {
         Update: {
           created_at?: string
           date?: string
-          doctor_id?: string
           id?: string
           notes?: string | null
           patient_name?: string
+          professional_id?: string
           time?: string
           type?: string
           updated_at?: string
@@ -141,6 +141,7 @@ export type Database = {
           next_visit: string | null
           observations: string | null
           patient_name: string
+          social_benefit: string | null
           social_worker_id: string
           socioeconomic_status: string | null
           support_network: string | null
@@ -155,6 +156,7 @@ export type Database = {
           next_visit?: string | null
           observations?: string | null
           patient_name: string
+          social_benefit?: string | null
           social_worker_id: string
           socioeconomic_status?: string | null
           support_network?: string | null
@@ -169,6 +171,7 @@ export type Database = {
           next_visit?: string | null
           observations?: string | null
           patient_name?: string
+          social_benefit?: string | null
           social_worker_id?: string
           socioeconomic_status?: string | null
           support_network?: string | null

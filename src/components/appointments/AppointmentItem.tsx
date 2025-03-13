@@ -21,9 +21,15 @@ const AppointmentItem = ({
     >
       <div>
         <p className="font-medium">{appointment.patient_name}</p>
-        <p className="text-sm text-gray-500">
-          {appointmentTypes[appointment.type]}
-        </p>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+          <p className="text-sm text-gray-500">
+            {appointmentTypes[appointment.type]}
+          </p>
+          <span className="hidden sm:inline text-xs text-gray-400">•</span>
+          <p className="text-sm text-gray-500">
+            {appointment.professional_name}
+          </p>
+        </div>
       </div>
       <div className="flex items-center gap-4">
         <span className="text-sm text-gray-500">

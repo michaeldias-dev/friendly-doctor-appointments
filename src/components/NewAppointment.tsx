@@ -1,4 +1,5 @@
 
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -9,11 +10,19 @@ import { useForm } from "react-hook-form";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
+interface Professional {
+  id: string;
+  first_name: string;
+  last_name: string;
+  specialty: string | null;
+}
+
 interface NewAppointmentForm {
   patientName: string;
   date: string;
   time: string;
   type: "routine" | "return" | "exam" | "emergency";
+  professionalId: string;
   notes?: string;
 }
 
@@ -24,6 +33,34 @@ interface NewAppointmentProps {
 const NewAppointment = ({ onSuccess }: NewAppointmentProps) => {
   const form = useForm<NewAppointmentForm>();
   const { toast } = useToast();
+  const [professionals, setProfessionals] = useState<Professional[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProfessionals = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("id, first_name, last_name, specialty")
+          .eq("approved", true)
+          .order("first_name", { ascending: true });
+
+        if (error) throw error;
+        setProfessionals(data || []);
+      } catch (error: any) {
+        console.error("Erro ao carregar profissionais:", error.message);
+        toast({
+          title: "Erro",
+          description: "Não foi possível carregar a lista de profissionais.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProfessionals();
+  }, [toast]);
 
   const onSubmit = async (data: NewAppointmentForm) => {
     try {
@@ -36,7 +73,7 @@ const NewAppointment = ({ onSuccess }: NewAppointmentProps) => {
       const { error } = await supabase
         .from("appointments")
         .insert([{
-          doctor_id: user.id,
+          professional_id: data.professionalId,
           patient_name: data.patientName,
           date: data.date,
           time: data.time,
@@ -71,6 +108,37 @@ const NewAppointment = ({ onSuccess }: NewAppointmentProps) => {
       <div className="flex-1 overflow-y-auto mt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="professionalId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Profissional</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o profissional" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {isLoading ? (
+                        <SelectItem value="loading" disabled>Carregando profissionais...</SelectItem>
+                      ) : professionals.length === 0 ? (
+                        <SelectItem value="empty" disabled>Nenhum profissional disponível</SelectItem>
+                      ) : (
+                        professionals.map((professional) => (
+                          <SelectItem key={professional.id} value={professional.id}>
+                            {professional.first_name} {professional.last_name}
+                            {professional.specialty && ` (${professional.specialty})`}
+                          </SelectItem>
+                        ))
+                      )}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="patientName"
