@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import NewSocialAnamnesis from "@/components/NewSocialAnamnesis";
+import NewSocialAnamnesis from "@/components/social-anamnesis/NewSocialAnamnesis";
 
 interface PageHeaderProps {
   onAnamnesisCreated: () => void;
