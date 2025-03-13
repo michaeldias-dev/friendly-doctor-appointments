@@ -9,6 +9,7 @@ import {
   Menu,
   User,
   Users,
+  FileText,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -45,6 +46,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
     { name: "Painel", href: "/dashboard", icon: Layout },
     { name: "Consultas", href: "/appointments", icon: Calendar },
     { name: "Prontuários", href: "/records", icon: ClipboardList },
+    { name: "Anamnese Social", href: "/social-anamnesis", icon: FileText },
     { name: "Perfil", href: "/profile", icon: User },
   ];
 

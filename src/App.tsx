@@ -9,6 +9,7 @@ import Appointments from "./pages/Appointments";
 import Records from "./pages/Records";
 import Auth from "./pages/Auth";
 import AdminUsers from "./pages/AdminUsers";
+import SocialAnamnesis from "./pages/SocialAnamnesis";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/appointments" element={<Appointments />} />
         <Route path="/records" element={<Records />} />
+        <Route path="/social-anamnesis" element={<SocialAnamnesis />} />
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/login" element={<Navigate to="/auth" replace />} />
         <Route path="*" element={<NotFound />} />

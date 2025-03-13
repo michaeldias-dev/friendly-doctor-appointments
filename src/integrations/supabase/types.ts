@@ -131,6 +131,51 @@ export type Database = {
         }
         Relationships: []
       }
+      social_anamnesis: {
+        Row: {
+          action_plan: string | null
+          created_at: string
+          family_composition: string | null
+          housing_conditions: string | null
+          id: string
+          next_visit: string | null
+          observations: string | null
+          patient_name: string
+          social_worker_id: string
+          socioeconomic_status: string | null
+          support_network: string | null
+          updated_at: string
+        }
+        Insert: {
+          action_plan?: string | null
+          created_at?: string
+          family_composition?: string | null
+          housing_conditions?: string | null
+          id?: string
+          next_visit?: string | null
+          observations?: string | null
+          patient_name: string
+          social_worker_id: string
+          socioeconomic_status?: string | null
+          support_network?: string | null
+          updated_at?: string
+        }
+        Update: {
+          action_plan?: string | null
+          created_at?: string
+          family_composition?: string | null
+          housing_conditions?: string | null
+          id?: string
+          next_visit?: string | null
+          observations?: string | null
+          patient_name?: string
+          social_worker_id?: string
+          socioeconomic_status?: string | null
+          support_network?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
