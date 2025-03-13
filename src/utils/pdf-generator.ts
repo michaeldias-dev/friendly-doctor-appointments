@@ -14,7 +14,22 @@ interface SocialAnamnesis {
   action_plan: string;
   next_visit: string | null;
   created_at: string;
+  social_benefit?: string | null;
 }
+
+const formatSocialBenefit = (benefit: string | null | undefined): string => {
+  if (!benefit || benefit === "nenhum") return "Nenhum";
+  
+  const benefitMap: Record<string, string> = {
+    bolsa_familia: "Bolsa Família",
+    bpc: "BPC (Benefício de Prestação Continuada)",
+    auxilio_brasil: "Auxílio Brasil",
+    auxilio_emergencial: "Auxílio Emergencial",
+    outros: "Outros"
+  };
+  
+  return benefitMap[benefit] || benefit;
+};
 
 export const generateAnamnesisPDF = (anamnesis: SocialAnamnesis) => {
   const pdf = new jsPDF();
@@ -56,6 +71,14 @@ export const generateAnamnesisPDF = (anamnesis: SocialAnamnesis) => {
   yPosition += lineHeight;
   pdf.setFontSize(12);
   pdf.text(anamnesis.socioeconomic_status || "Não informado", 20, yPosition);
+  yPosition += lineHeight * 1.5;
+
+  // Benefício Social
+  pdf.setFontSize(14);
+  pdf.text("Benefício Social:", 20, yPosition);
+  yPosition += lineHeight;
+  pdf.setFontSize(12);
+  pdf.text(formatSocialBenefit(anamnesis.social_benefit), 20, yPosition);
   yPosition += lineHeight * 1.5;
 
   // Rede de Apoio

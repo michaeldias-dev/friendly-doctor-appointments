@@ -38,6 +38,7 @@ const AnamnesisForm = ({ onSuccess }: AnamnesisFormProps) => {
           observations: data.observations,
           action_plan: data.actionPlan,
           next_visit: data.nextVisit || null,
+          social_benefit: data.socialBenefit || null,
         });
 
       if (error) throw error;

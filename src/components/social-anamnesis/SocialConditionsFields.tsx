@@ -1,8 +1,10 @@
 
-import { FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
+import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { SocialAnamnesisForm } from "./types";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface SocialConditionsFieldsProps {
   form: UseFormReturn<SocialAnamnesisForm>;
@@ -10,24 +12,9 @@ interface SocialConditionsFieldsProps {
 
 const SocialConditionsFields = ({ form }: SocialConditionsFieldsProps) => {
   return (
-    <>
-      <FormField
-        control={form.control}
-        name="familyComposition"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Composição Familiar</FormLabel>
-            <FormControl>
-              <Textarea 
-                placeholder="Descreva a composição familiar do paciente"
-                className="min-h-[100px]"
-                {...field} 
-              />
-            </FormControl>
-          </FormItem>
-        )}
-      />
-
+    <div className="space-y-4 rounded-lg border p-4">
+      <h3 className="text-lg font-medium">Condições Sociais</h3>
+      
       <FormField
         control={form.control}
         name="housingConditions"
@@ -35,16 +22,13 @@ const SocialConditionsFields = ({ form }: SocialConditionsFieldsProps) => {
           <FormItem>
             <FormLabel>Condições de Moradia</FormLabel>
             <FormControl>
-              <Textarea 
-                placeholder="Descreva as condições de moradia do paciente"
-                className="min-h-[100px]"
-                {...field} 
-              />
+              <Input placeholder="Descreva as condições de moradia" {...field} />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />
-
+      
       <FormField
         control={form.control}
         name="socioeconomicStatus"
@@ -52,16 +36,42 @@ const SocialConditionsFields = ({ form }: SocialConditionsFieldsProps) => {
           <FormItem>
             <FormLabel>Situação Socioeconômica</FormLabel>
             <FormControl>
-              <Textarea 
-                placeholder="Descreva a situação socioeconômica do paciente"
-                className="min-h-[100px]"
-                {...field} 
-              />
+              <Input placeholder="Descreva a situação socioeconômica" {...field} />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />
-    </>
+
+      <FormField
+        control={form.control}
+        name="socialBenefit"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Benefício Social</FormLabel>
+            <Select
+              onValueChange={field.onChange}
+              defaultValue={field.value}
+            >
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o benefício social" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="nenhum">Nenhum</SelectItem>
+                <SelectItem value="bolsa_familia">Bolsa Família</SelectItem>
+                <SelectItem value="bpc">BPC (Benefício de Prestação Continuada)</SelectItem>
+                <SelectItem value="auxilio_brasil">Auxílio Brasil</SelectItem>
+                <SelectItem value="auxilio_emergencial">Auxílio Emergencial</SelectItem>
+                <SelectItem value="outros">Outros</SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </div>
   );
 };
 

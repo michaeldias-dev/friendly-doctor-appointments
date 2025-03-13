@@ -8,4 +8,5 @@ export interface SocialAnamnesisForm {
   observations: string;
   actionPlan: string;
   nextVisit: string;
+  socialBenefit: string;
 }
