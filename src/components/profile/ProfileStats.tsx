@@ -31,27 +31,35 @@ export function ProfileStats() {
         const { data: patientsData } = await supabase
           .from("appointments")
           .select("patient_name")
-          .eq("doctor_id", user.id);
+          .eq("professional_id", user.id);
           
-        const uniquePatients = new Set(patientsData?.map(apt => apt.patient_name));
+        const uniquePatients = patientsData ? 
+          new Set(patientsData.map(apt => apt.patient_name)) : 
+          new Set();
         
         // Get appointments for current month
         const currentMonth = format(new Date(), "yyyy-MM");
         const { data: monthlyAppointments } = await supabase
           .from("appointments")
           .select("id")
-          .eq("doctor_id", user.id)
+          .eq("professional_id", user.id)
           .gte("date", format(subMonths(new Date(), 1), "yyyy-MM-dd"))
           .lte("date", format(new Date(), "yyyy-MM-dd"));
         
-        // Calculate years of experience (default to profile specialty start year if available)
-        const yearsOfExp = profileData?.specialty ? 
-          (profileData.specialty.match(/\d{4}/) ? 
-            new Date().getFullYear() - parseInt(profileData.specialty.match(/\d{4}/)[0]) : 
-            profileData.bio?.match(/\d{4}/) ? 
-              new Date().getFullYear() - parseInt(profileData.bio.match(/\d{4}/)[0]) : 
-              0) : 
-          0;
+        // Calculate years of experience
+        let yearsOfExp = 0;
+        
+        if (profileData?.specialty) {
+          const yearMatch = profileData.specialty.match(/\d{4}/);
+          if (yearMatch) {
+            yearsOfExp = new Date().getFullYear() - parseInt(yearMatch[0]);
+          } else if (profileData.bio) {
+            const bioYearMatch = profileData.bio.match(/\d{4}/);
+            if (bioYearMatch) {
+              yearsOfExp = new Date().getFullYear() - parseInt(bioYearMatch[0]);
+            }
+          }
+        }
 
         setStats({
           totalPatients: uniquePatients.size,

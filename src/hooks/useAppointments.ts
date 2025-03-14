@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { format, isSameDay } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Appointment, AppointmentFromDB } from '@/types/appointment';
 
@@ -12,6 +13,7 @@ export const useAppointments = () => {
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
   const [appointmentDates, setAppointmentDates] = useState<Date[]>([]);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const loadAppointments = async () => {
     try {
@@ -61,13 +63,25 @@ export const useAppointments = () => {
       if (error) throw error;
 
       // Mapear os dados para incluir informações do profissional
-      const validAppointments = (data || []).map((apt): Appointment => ({
-        ...apt,
-        type: apt.type as "routine" | "return" | "exam" | "emergency",
-        professional_name: apt.profiles ? 
-          `${apt.profiles.first_name || ''} ${apt.profiles.last_name || ''}`.trim() : 
-          'Profissional não encontrado'
-      }));
+      const validAppointments = (data || []).map((apt: AppointmentFromDB): Appointment => {
+        let professional_name = 'Profissional não encontrado';
+        
+        // Check if profiles exists and has the expected properties
+        if (apt.profiles && 
+            typeof apt.profiles === 'object' && 
+            'first_name' in apt.profiles && 
+            'last_name' in apt.profiles) {
+          const firstName = apt.profiles.first_name || '';
+          const lastName = apt.profiles.last_name || '';
+          professional_name = `${firstName} ${lastName}`.trim();
+        }
+        
+        return {
+          ...apt,
+          type: apt.type as "routine" | "return" | "exam" | "emergency",
+          professional_name
+        };
+      });
 
       setAppointments(validAppointments);
       
