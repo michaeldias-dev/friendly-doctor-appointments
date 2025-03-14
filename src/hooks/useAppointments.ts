@@ -66,10 +66,11 @@ export const useAppointments = () => {
       const validAppointments = (data || []).map((apt): Appointment => {
         let professional_name = 'Profissional não encontrado';
         
-        // Verificar se profiles existe e é um objeto válido com as propriedades necessárias
+        // Verificar se profiles existe, não é null, e é um objeto válido com as propriedades necessárias
         if (apt.profiles && 
             typeof apt.profiles === 'object' && 
-            !apt.profiles.error && 
+            apt.profiles !== null &&
+            !('error' in apt.profiles) && 
             'first_name' in apt.profiles && 
             'last_name' in apt.profiles) {
           const firstName = apt.profiles.first_name || '';
