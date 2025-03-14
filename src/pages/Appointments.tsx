@@ -4,6 +4,8 @@ import AppointmentHeader from "@/components/appointments/AppointmentHeader";
 import AppointmentCalendar from "@/components/appointments/AppointmentCalendar";
 import AppointmentsList from "@/components/appointments/AppointmentsList";
 import AppointmentDetails from "@/components/appointments/AppointmentDetails";
+import ProfessionalFilter from "@/components/appointments/ProfessionalFilter";
+import AppointmentStats from "@/components/appointments/AppointmentStats";
 import { useAppointments } from "@/hooks/useAppointments";
 
 const appointmentTypes = {
@@ -22,7 +24,13 @@ const Appointments = () => {
     setSelectedAppointment,
     filteredAppointments,
     isDayWithAppointments,
-    loadAppointments
+    loadAppointments,
+    professionals,
+    selectedProfessionalId,
+    setSelectedProfessionalId,
+    appointmentsThisMonth,
+    upcomingAppointments,
+    pastAppointments
   } = useAppointments();
 
   return (
@@ -30,6 +38,19 @@ const Appointments = () => {
       <div className="animate-in">
         <AppointmentHeader onSuccess={loadAppointments} />
         
+        <ProfessionalFilter 
+          professionals={professionals}
+          selectedProfessionalId={selectedProfessionalId}
+          onChange={id => setSelectedProfessionalId(id || null)}
+        />
+        
+        <AppointmentStats 
+          appointmentsThisMonth={appointmentsThisMonth}
+          upcomingAppointments={upcomingAppointments}
+          pastAppointments={pastAppointments}
+          isLoading={isLoading}
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <AppointmentCalendar 
             date={date} 
