@@ -13,7 +13,7 @@ export interface Appointment {
   profiles?: {
     first_name: string | null;
     last_name: string | null;
-  } | null;
+  } | null | any; // Adicionado 'any' para lidar com erro de tipagem
 }
 
 export type AppointmentFromDB = {
@@ -29,7 +29,7 @@ export type AppointmentFromDB = {
   profiles?: {
     first_name: string | null;
     last_name: string | null;
-  } | null;
+  } | null | any; // Adicionado 'any' para lidar com erro de tipagem
 }
 
 export type AppointmentTypes = {

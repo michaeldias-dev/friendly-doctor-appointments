@@ -63,12 +63,13 @@ export const useAppointments = () => {
       if (error) throw error;
 
       // Mapear os dados para incluir informações do profissional
-      const validAppointments = (data || []).map((apt: AppointmentFromDB): Appointment => {
+      const validAppointments = (data || []).map((apt): Appointment => {
         let professional_name = 'Profissional não encontrado';
         
-        // Check if profiles exists and has the expected properties
+        // Verificar se profiles existe e é um objeto válido com as propriedades necessárias
         if (apt.profiles && 
             typeof apt.profiles === 'object' && 
+            !apt.profiles.error && 
             'first_name' in apt.profiles && 
             'last_name' in apt.profiles) {
           const firstName = apt.profiles.first_name || '';
