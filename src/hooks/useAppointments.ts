@@ -69,13 +69,16 @@ export const useAppointments = () => {
         // Verificar se profiles existe, não é null, e é um objeto válido com as propriedades necessárias
         if (apt.profiles && 
             typeof apt.profiles === 'object' && 
-            apt.profiles !== null &&
-            !('error' in apt.profiles) && 
-            'first_name' in apt.profiles && 
-            'last_name' in apt.profiles) {
-          const firstName = apt.profiles.first_name || '';
-          const lastName = apt.profiles.last_name || '';
-          professional_name = `${firstName} ${lastName}`.trim();
+            apt.profiles !== null) {
+          
+          // Verificar se não é um objeto de erro e tem as propriedades necessárias
+          if (!('error' in apt.profiles) && 
+              'first_name' in apt.profiles && 
+              'last_name' in apt.profiles) {
+            const firstName = apt.profiles.first_name || '';
+            const lastName = apt.profiles.last_name || '';
+            professional_name = `${firstName} ${lastName}`.trim();
+          }
         }
         
         return {
