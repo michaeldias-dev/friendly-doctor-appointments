@@ -97,19 +97,15 @@ export const useAppointments = () => {
       const validAppointments = (data || []).map((apt): Appointment => {
         let professional_name = 'Profissional não encontrado';
         
-        // Verificar se profiles existe, não é null, e é um objeto válido com as propriedades necessárias
-        if (apt.profiles && 
-            typeof apt.profiles === 'object' && 
-            apt.profiles !== null) {
-          
-          // Verificar se não é um objeto de erro e tem as propriedades necessárias
-          if (!('error' in apt.profiles) && 
-              apt.profiles !== null && 
-              'first_name' in apt.profiles && 
-              'last_name' in apt.profiles) {
-            const firstName = apt.profiles.first_name || '';
-            const lastName = apt.profiles.last_name || '';
-            professional_name = `${firstName} ${lastName}`.trim();
+        // Adicionar verificação segura para apt.profiles
+        if (apt.profiles) {
+          // Garantir que profiles é um objeto válido e não null
+          const profiles = apt.profiles;
+          if (typeof profiles === 'object' && profiles !== null) {
+            // Verificar se as propriedades first_name e last_name existem
+            const firstName = 'first_name' in profiles ? profiles.first_name || '' : '';
+            const lastName = 'last_name' in profiles ? profiles.last_name || '' : '';
+            professional_name = `${firstName} ${lastName}`.trim() || 'Sem nome';
           }
         }
         
