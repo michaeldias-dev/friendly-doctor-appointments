@@ -1,5 +1,6 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import StatCard from "./StatCard";
 import { Calendar, Clock, CheckCircle } from "lucide-react";
 
 interface AppointmentStatsProps {
@@ -17,47 +18,24 @@ const AppointmentStats = ({
 }: AppointmentStatsProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Consultas este mês</CardTitle>
-          <Calendar className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="h-8 w-16 bg-gray-200 animate-pulse rounded"></div>
-          ) : (
-            <p className="text-2xl font-bold">{appointmentsThisMonth}</p>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Consultas a realizar</CardTitle>
-          <Clock className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="h-8 w-16 bg-gray-200 animate-pulse rounded"></div>
-          ) : (
-            <p className="text-2xl font-bold">{upcomingAppointments}</p>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Consultas realizadas</CardTitle>
-          <CheckCircle className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="h-8 w-16 bg-gray-200 animate-pulse rounded"></div>
-          ) : (
-            <p className="text-2xl font-bold">{pastAppointments}</p>
-          )}
-        </CardContent>
-      </Card>
+      <StatCard 
+        title="Consultas este mês"
+        value={appointmentsThisMonth}
+        icon={<Calendar className="h-4 w-4 text-muted-foreground" />}
+        isLoading={isLoading}
+      />
+      <StatCard 
+        title="Consultas a realizar"
+        value={upcomingAppointments}
+        icon={<Clock className="h-4 w-4 text-muted-foreground" />}
+        isLoading={isLoading}
+      />
+      <StatCard 
+        title="Consultas realizadas"
+        value={pastAppointments}
+        icon={<CheckCircle className="h-4 w-4 text-muted-foreground" />}
+        isLoading={isLoading}
+      />
     </div>
   );
 };

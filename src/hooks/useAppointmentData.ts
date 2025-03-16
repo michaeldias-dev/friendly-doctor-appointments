@@ -75,14 +75,9 @@ export const useAppointmentData = () => {
         
         // Adicionar verificação segura para apt.profiles
         if (apt.profiles) {
-          // Garantir que profiles é um objeto válido e não null
-          const profiles = apt.profiles;
-          if (typeof profiles === 'object' && profiles !== null) {
-            // Verificar se as propriedades first_name e last_name existem
-            const firstName = 'first_name' in profiles && profiles.first_name !== null ? profiles.first_name : '';
-            const lastName = 'last_name' in profiles && profiles.last_name !== null ? profiles.last_name : '';
-            professional_name = `${firstName} ${lastName}`.trim() || 'Sem nome';
-          }
+          const firstName = apt.profiles.first_name || '';
+          const lastName = apt.profiles.last_name || '';
+          professional_name = `${firstName} ${lastName}`.trim() || 'Sem nome';
         }
         
         return {

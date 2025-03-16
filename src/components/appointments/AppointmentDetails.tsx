@@ -8,6 +8,8 @@ import {
   DialogTitle
 } from "@/components/ui/dialog";
 import { Appointment, AppointmentTypes } from "@/types/appointment";
+import AppointmentTypeBadge from "./AppointmentTypeBadge";
+import DetailField from "./DetailField";
 
 interface AppointmentDetailsProps {
   appointment: Appointment | null;
@@ -22,41 +24,46 @@ const AppointmentDetails = ({
   onOpenChange,
   appointmentTypes
 }: AppointmentDetailsProps) => {
+  if (!appointment) return null;
+
+  const formattedDate = format(
+    new Date(appointment.date), 
+    "d 'de' MMMM, yyyy", 
+    { locale: ptBR }
+  );
+  
+  const formattedTime = format(
+    new Date(`2000-01-01T${appointment.time}`), 
+    "HH:mm"
+  );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Detalhes da Consulta</DialogTitle>
         </DialogHeader>
-        {appointment && (
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-medium text-gray-500">Paciente</h3>
-              <p>{appointment.patient_name}</p>
-            </div>
-            <div>
-              <h3 className="font-medium text-gray-500">Profissional</h3>
-              <p>{appointment.professional_name || "Não especificado"}</p>
-            </div>
-            <div>
-              <h3 className="font-medium text-gray-500">Data e Hora</h3>
-              <p>
-                {format(new Date(appointment.date), "d 'de' MMMM, yyyy", { locale: ptBR })} às{" "}
-                {format(new Date(`2000-01-01T${appointment.time}`), "HH:mm")}
-              </p>
-            </div>
-            <div>
-              <h3 className="font-medium text-gray-500">Tipo de Consulta</h3>
-              <p>{appointmentTypes[appointment.type]}</p>
-            </div>
-            {appointment.notes && (
-              <div>
-                <h3 className="font-medium text-gray-500">Observações</h3>
-                <p>{appointment.notes}</p>
-              </div>
-            )}
+        <div className="space-y-4">
+          <DetailField label="Paciente" value={appointment.patient_name} />
+          <DetailField 
+            label="Profissional" 
+            value={appointment.professional_name || "Não especificado"} 
+          />
+          <DetailField 
+            label="Data e Hora" 
+            value={`${formattedDate} às ${formattedTime}`} 
+          />
+          <div>
+            <h3 className="font-medium text-gray-500 mb-1">Tipo de Consulta</h3>
+            <AppointmentTypeBadge 
+              type={appointment.type} 
+              appointmentTypes={appointmentTypes} 
+            />
           </div>
-        )}
+          {appointment.notes && (
+            <DetailField label="Observações" value={appointment.notes} />
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );

@@ -3,6 +3,8 @@ import { format } from "date-fns";
 import { Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Appointment, AppointmentTypes } from "@/types/appointment";
+import AppointmentTypeBadge from "./AppointmentTypeBadge";
+import AppointmentTime from "./AppointmentTime";
 
 interface AppointmentItemProps {
   appointment: Appointment;
@@ -22,9 +24,10 @@ const AppointmentItem = ({
       <div>
         <p className="font-medium">{appointment.patient_name}</p>
         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-          <p className="text-sm text-gray-500">
-            {appointmentTypes[appointment.type]}
-          </p>
+          <AppointmentTypeBadge 
+            type={appointment.type} 
+            appointmentTypes={appointmentTypes} 
+          />
           <span className="hidden sm:inline text-xs text-gray-400">•</span>
           <p className="text-sm text-gray-500">
             {appointment.professional_name}
@@ -32,9 +35,7 @@ const AppointmentItem = ({
         </div>
       </div>
       <div className="flex items-center gap-4">
-        <span className="text-sm text-gray-500">
-          {format(new Date(`2000-01-01T${appointment.time}`), "HH:mm")}
-        </span>
+        <AppointmentTime time={appointment.time} />
         <Button
           variant="outline"
           size="sm"
