@@ -17,14 +17,14 @@ const ProfessionalFilter = ({
     <div className="flex flex-col space-y-1.5 mb-4">
       <Label htmlFor="professional-filter">Filtrar por Profissional</Label>
       <Select 
-        value={selectedProfessionalId || ""} 
+        value={selectedProfessionalId || "all"} 
         onValueChange={onChange}
       >
         <SelectTrigger id="professional-filter">
           <SelectValue placeholder="Selecione um profissional" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="">Todos os profissionais</SelectItem>
+          <SelectItem value="all">Todos os profissionais</SelectItem>
           {professionals.map((professional) => (
             <SelectItem key={professional.id} value={professional.id}>
               {professional.name}

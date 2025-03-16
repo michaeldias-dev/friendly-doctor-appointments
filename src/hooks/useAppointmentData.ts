@@ -1,10 +1,9 @@
 
 import { useState, useEffect } from 'react';
-import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Appointment, AppointmentFromDB } from '@/types/appointment';
+import { Appointment } from '@/types/appointment';
 
 export const useAppointmentData = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -60,8 +59,8 @@ export const useAppointmentData = () => {
         .order("date", { ascending: true })
         .order("time", { ascending: true });
 
-      // Aplicar filtro de profissional se selecionado
-      if (selectedProfessionalId) {
+      // Aplicar filtro de profissional se selecionado e não for "all"
+      if (selectedProfessionalId && selectedProfessionalId !== "all") {
         query = query.eq("professional_id", selectedProfessionalId);
       }
 
@@ -70,7 +69,7 @@ export const useAppointmentData = () => {
       if (error) throw error;
 
       // Mapear os dados para incluir informações do profissional
-      const validAppointments = (data || []).map((apt): Appointment => {
+      const validAppointments = (data || []).map((apt: any): Appointment => {
         let professional_name = 'Profissional não encontrado';
         
         // Adicionar verificação segura para apt.profiles
