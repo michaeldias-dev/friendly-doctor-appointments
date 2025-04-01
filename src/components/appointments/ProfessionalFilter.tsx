@@ -23,7 +23,7 @@ const ProfessionalFilter = ({
         <SelectTrigger id="professional-filter" className="bg-white text-gray-900 border-gray-300">
           <SelectValue placeholder="Selecione um profissional" />
         </SelectTrigger>
-        <SelectContent className="bg-white text-gray-900">
+        <SelectContent position="popper" className="bg-white text-gray-900 z-50">
           <SelectItem value="all" className="hover:bg-gray-100">Todos os profissionais</SelectItem>
           {professionals.map((professional) => (
             <SelectItem key={professional.id} value={professional.id} className="hover:bg-gray-100">
