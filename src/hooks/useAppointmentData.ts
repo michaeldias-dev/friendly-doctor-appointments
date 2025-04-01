@@ -42,8 +42,8 @@ export const useAppointmentData = () => {
         return;
       }
 
-      // Construir a query base
-      let query = supabase
+      // Construir a query base para buscar consultas
+      let appointmentsQuery = supabase
         .from("appointments")
         .select(`
           id, 
@@ -54,36 +54,42 @@ export const useAppointmentData = () => {
           notes, 
           created_at, 
           updated_at, 
-          professional_id,
-          profiles(first_name, last_name)
+          professional_id
         `)
         .order("date", { ascending: true })
         .order("time", { ascending: true });
 
       // Aplicar filtro de profissional se selecionado e não for "all"
       if (selectedProfessionalId && selectedProfessionalId !== "all") {
-        query = query.eq("professional_id", selectedProfessionalId);
+        appointmentsQuery = appointmentsQuery.eq("professional_id", selectedProfessionalId);
       }
 
-      const { data, error } = await query;
+      const { data: appointmentsData, error: appointmentsError } = await appointmentsQuery;
 
-      if (error) throw error;
+      if (appointmentsError) throw appointmentsError;
+      
+      // Buscar os nomes dos profissionais separadamente para evitar o erro de relação
+      const professionalIds = Array.from(new Set((appointmentsData || []).map(apt => apt.professional_id)));
+      
+      const { data: professionalsData, error: professionalsError } = await supabase
+        .from("profiles")
+        .select("id, first_name, last_name")
+        .in("id", professionalIds);
+      
+      if (professionalsError) throw professionalsError;
+      
+      // Criar um mapa de id para nome de profissional para facilitar a busca
+      const professionalMap = (professionalsData || []).reduce((map, prof) => {
+        map[prof.id] = `${prof.first_name || ''} ${prof.last_name || ''}`.trim() || 'Sem nome';
+        return map;
+      }, {} as Record<string, string>);
 
       // Mapear os dados para incluir informações do profissional
-      const validAppointments = (data || []).map((apt: any): Appointment => {
-        let professional_name = 'Profissional não encontrado';
-        
-        // Adicionar verificação segura para apt.profiles
-        if (apt.profiles) {
-          const firstName = apt.profiles.first_name || '';
-          const lastName = apt.profiles.last_name || '';
-          professional_name = `${firstName} ${lastName}`.trim() || 'Sem nome';
-        }
-        
+      const validAppointments = (appointmentsData || []).map((apt: any): Appointment => {
         return {
           ...apt,
           type: apt.type as "routine" | "return" | "exam" | "emergency",
-          professional_name
+          professional_name: professionalMap[apt.professional_id] || 'Profissional não encontrado'
         };
       });
 

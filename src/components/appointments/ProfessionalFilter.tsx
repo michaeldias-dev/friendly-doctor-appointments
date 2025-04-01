@@ -20,13 +20,13 @@ const ProfessionalFilter = ({
         value={selectedProfessionalId || "all"} 
         onValueChange={onChange}
       >
-        <SelectTrigger id="professional-filter" className="bg-white">
+        <SelectTrigger id="professional-filter" className="bg-white text-gray-900 border-gray-300">
           <SelectValue placeholder="Selecione um profissional" />
         </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">Todos os profissionais</SelectItem>
+        <SelectContent className="bg-white text-gray-900">
+          <SelectItem value="all" className="hover:bg-gray-100">Todos os profissionais</SelectItem>
           {professionals.map((professional) => (
-            <SelectItem key={professional.id} value={professional.id}>
+            <SelectItem key={professional.id} value={professional.id} className="hover:bg-gray-100">
               {professional.name}
             </SelectItem>
           ))}

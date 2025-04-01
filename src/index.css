@@ -48,7 +48,13 @@
   animation: fade-in 0.5s ease-out;
 }
 
-/* Estilos adicionais para melhorar visibilidade dos selects */
+/* Estilos melhorados para os selects */
+[data-radix-select-trigger] {
+  background-color: white !important;
+  color: #333 !important;
+  border: 1px solid #ccc !important;
+}
+
 [data-radix-select-content] {
   --bg-opacity: 1 !important;
   background-color: white !important;
