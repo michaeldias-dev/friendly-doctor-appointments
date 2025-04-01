@@ -15,6 +15,7 @@ export const useAppointmentData = () => {
 
   const loadAppointments = async () => {
     try {
+      setIsLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {
@@ -117,7 +118,7 @@ export const useAppointmentData = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [navigate]);
+  }, [navigate, selectedProfessionalId]); // Adicionar selectedProfessionalId como dependência
 
   // Recarregar consultas quando o profissional selecionado mudar
   useEffect(() => {

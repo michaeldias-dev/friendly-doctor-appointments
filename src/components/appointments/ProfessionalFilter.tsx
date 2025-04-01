@@ -20,7 +20,7 @@ const ProfessionalFilter = ({
         value={selectedProfessionalId || "all"} 
         onValueChange={onChange}
       >
-        <SelectTrigger id="professional-filter">
+        <SelectTrigger id="professional-filter" className="bg-white">
           <SelectValue placeholder="Selecione um profissional" />
         </SelectTrigger>
         <SelectContent>
