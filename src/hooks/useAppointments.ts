@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppointmentData } from './useAppointmentData';
 import { useProfessionals } from './useProfessionals';
@@ -33,6 +33,14 @@ export const useAppointments = () => {
     isDayWithAppointments
   } = useAppointmentCalendar(appointments, appointmentDates);
 
+  // Memoized handler to avoid recreating on each render
+  const handleProfessionalChange = useCallback((id: string) => {
+    // Small delay to ensure DOM is ready
+    setTimeout(() => {
+      setSelectedProfessionalId(id === "all" ? null : id);
+    }, 10);
+  }, [setSelectedProfessionalId]);
+
   return {
     date,
     setDate,
@@ -45,7 +53,7 @@ export const useAppointments = () => {
     loadAppointments,
     professionals,
     selectedProfessionalId,
-    setSelectedProfessionalId,
+    setSelectedProfessionalId: handleProfessionalChange,
     appointmentsThisMonth,
     upcomingAppointments,
     pastAppointments

@@ -41,7 +41,7 @@ const Appointments = () => {
         <ProfessionalFilter 
           professionals={professionals}
           selectedProfessionalId={selectedProfessionalId}
-          onChange={id => setSelectedProfessionalId(id || null)}
+          onChange={setSelectedProfessionalId}
         />
         
         <AppointmentStats 
