@@ -47,3 +47,23 @@
 .animate-in {
   animation: fade-in 0.5s ease-out;
 }
+
+/* Estilos adicionais para melhorar visibilidade dos selects */
+[data-radix-select-content] {
+  --bg-opacity: 1 !important;
+  background-color: white !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-radix-select-item] {
+  color: #333 !important;
+}
+
+[data-radix-select-item]:hover {
+  background-color: rgba(79, 209, 197, 0.1) !important;
+}
+
+[data-radix-select-item][data-highlighted] {
+  background-color: rgba(79, 209, 197, 0.2) !important;
+  color: #333 !important;
+}
