@@ -49,6 +49,12 @@ const AppointmentDetails = ({
             label="Profissional" 
             value={appointment.professional_name || "Não especificado"} 
           />
+          {appointment.congregation && (
+            <DetailField 
+              label="Congregação" 
+              value={appointment.congregation} 
+            />
+          )}
           <DetailField 
             label="Data e Hora" 
             value={`${formattedDate} às ${formattedTime}`} 
