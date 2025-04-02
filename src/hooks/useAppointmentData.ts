@@ -1,9 +1,9 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Appointment } from '@/types/appointment';
+import { parseISO } from 'date-fns';
 
 export const useAppointmentData = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -23,7 +23,6 @@ export const useAppointmentData = () => {
         return;
       }
 
-      // Verificar se o usuário está aprovado
       const { data: profileData, error: profileError } = await supabase
         .from("profiles")
         .select("approved")
@@ -42,7 +41,6 @@ export const useAppointmentData = () => {
         return;
       }
 
-      // Construir a query base para buscar consultas
       let appointmentsQuery = supabase
         .from("appointments")
         .select(`
@@ -59,7 +57,6 @@ export const useAppointmentData = () => {
         .order("date", { ascending: true })
         .order("time", { ascending: true });
 
-      // Aplicar filtro de profissional se selecionado e não for "all"
       if (selectedProfessionalId && selectedProfessionalId !== "all") {
         appointmentsQuery = appointmentsQuery.eq("professional_id", selectedProfessionalId);
       }
@@ -68,7 +65,6 @@ export const useAppointmentData = () => {
 
       if (appointmentsError) throw appointmentsError;
       
-      // Buscar os nomes dos profissionais separadamente para evitar o erro de relação
       const professionalIds = Array.from(new Set((appointmentsData || []).map(apt => apt.professional_id)));
       
       const { data: professionalsData, error: professionalsError } = await supabase
@@ -78,13 +74,11 @@ export const useAppointmentData = () => {
       
       if (professionalsError) throw professionalsError;
       
-      // Criar um mapa de id para nome de profissional para facilitar a busca
       const professionalMap = (professionalsData || []).reduce((map, prof) => {
         map[prof.id] = `${prof.first_name || ''} ${prof.last_name || ''}`.trim() || 'Sem nome';
         return map;
       }, {} as Record<string, string>);
 
-      // Mapear os dados para incluir informações do profissional
       const validAppointments = (appointmentsData || []).map((apt: any): Appointment => {
         return {
           ...apt,
@@ -95,10 +89,9 @@ export const useAppointmentData = () => {
 
       setAppointments(validAppointments);
       
-      // Extrair datas únicas para marcar no calendário
-      const uniqueDates = Array.from(new Set(
-        validAppointments.map(apt => apt.date)
-      )).map(dateStr => new Date(dateStr));
+      const uniqueDates = Array.from(
+        new Set(validAppointments.map(apt => apt.date))
+      ).map(dateStr => parseISO(dateStr));
       
       setAppointmentDates(uniqueDates);
     } catch (error) {
@@ -108,7 +101,6 @@ export const useAppointmentData = () => {
     }
   };
 
-  // Configurar listener para atualizações em tempo real
   useEffect(() => {
     const channel = supabase
       .channel('appointments-changes')
@@ -124,9 +116,8 @@ export const useAppointmentData = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [navigate, selectedProfessionalId]); // Adicionar selectedProfessionalId como dependência
+  }, [navigate, selectedProfessionalId]);
 
-  // Recarregar consultas quando o profissional selecionado mudar
   useEffect(() => {
     loadAppointments();
   }, [selectedProfessionalId]);
