@@ -23,6 +23,7 @@ interface NewAppointmentForm {
   time: string;
   type: "routine" | "return" | "exam" | "emergency";
   professionalId: string;
+  congregation?: string;
   notes?: string;
 }
 
@@ -78,6 +79,7 @@ const NewAppointment = ({ onSuccess }: NewAppointmentProps) => {
           date: data.date,
           time: data.time,
           type: data.type,
+          congregation: data.congregation || null,
           notes: data.notes || null,
         }]);
 
@@ -147,6 +149,19 @@ const NewAppointment = ({ onSuccess }: NewAppointmentProps) => {
                   <FormLabel>Nome do Paciente</FormLabel>
                   <FormControl>
                     <Input placeholder="Digite o nome do paciente" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="congregation"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Comum Congregação</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Digite a congregação do paciente" {...field} />
                   </FormControl>
                 </FormItem>
               )}

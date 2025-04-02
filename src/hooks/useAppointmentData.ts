@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -52,7 +53,8 @@ export const useAppointmentData = () => {
           notes, 
           created_at, 
           updated_at, 
-          professional_id
+          professional_id,
+          congregation
         `)
         .order("date", { ascending: true })
         .order("time", { ascending: true });

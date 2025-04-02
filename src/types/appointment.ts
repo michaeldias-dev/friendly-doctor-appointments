@@ -10,6 +10,7 @@ export interface Appointment {
   updated_at: string;
   professional_id: string;
   professional_name?: string;
+  congregation?: string | null;
   profiles?: {
     first_name: string | null;
     last_name: string | null;
@@ -26,6 +27,7 @@ export type AppointmentFromDB = {
   created_at: string;
   updated_at: string;
   professional_id: string;
+  congregation?: string | null;
   profiles?: {
     first_name: string | null;
     last_name: string | null;
