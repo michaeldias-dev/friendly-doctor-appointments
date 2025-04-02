@@ -1,6 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
+import { ptBR } from "date-fns/locale";
 
 interface AppointmentCalendarProps {
   date: Date | undefined;
@@ -23,7 +24,8 @@ const AppointmentCalendar = ({
           mode="single"
           selected={date}
           onSelect={onDateSelect}
-          className="rounded-md border"
+          className="rounded-md border pointer-events-auto"
+          locale={ptBR}
           modifiers={{
             booked: (date) => isDayWithAppointments(date)
           }}

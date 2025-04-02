@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { format } from 'date-fns';
+import { format, isSameDay, parseISO } from 'date-fns';
 import { Appointment } from '@/types/appointment';
 
 export const useAppointmentCalendar = (appointments: Appointment[], appointmentDates: Date[]) => {
@@ -9,10 +9,12 @@ export const useAppointmentCalendar = (appointments: Appointment[], appointmentD
 
   const filteredAppointments = appointments.filter(appointment => {
     if (!date) return false;
-    return appointment.date === format(date, "yyyy-MM-dd");
+    // Parse the ISO string date to ensure proper comparison
+    const appointmentDate = parseISO(appointment.date);
+    return isSameDay(appointmentDate, date);
   });
   
-  // Função para destacar dias com consultas no calendário
+  // Function to highlight days with appointments in the calendar
   const isDayWithAppointments = (day: Date) => {
     return appointmentDates.some(appointmentDate => 
       isSameDay(day, appointmentDate)
@@ -28,6 +30,3 @@ export const useAppointmentCalendar = (appointments: Appointment[], appointmentD
     isDayWithAppointments
   };
 };
-
-// Importar isSameDay
-import { isSameDay } from 'date-fns';
