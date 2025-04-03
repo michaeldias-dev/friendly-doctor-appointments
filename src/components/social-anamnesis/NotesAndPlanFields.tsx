@@ -21,7 +21,7 @@ const NotesAndPlanFields = ({ form }: NotesAndPlanFieldsProps) => {
             <FormControl>
               <Textarea 
                 placeholder="Observações adicionais"
-                className="min-h-[100px]"
+                className="min-h-[100px] bg-white"
                 {...field}
               />
             </FormControl>
@@ -38,7 +38,7 @@ const NotesAndPlanFields = ({ form }: NotesAndPlanFieldsProps) => {
             <FormControl>
               <Textarea 
                 placeholder="Descreva o plano de ação proposto"
-                className="min-h-[100px]"
+                className="min-h-[100px] bg-white"
                 {...field}
               />
             </FormControl>
@@ -53,7 +53,7 @@ const NotesAndPlanFields = ({ form }: NotesAndPlanFieldsProps) => {
           <FormItem>
             <FormLabel>Próximo Acompanhamento</FormLabel>
             <FormControl>
-              <Input type="date" {...field} />
+              <Input type="date" {...field} className="h-11 bg-white" />
             </FormControl>
           </FormItem>
         )}

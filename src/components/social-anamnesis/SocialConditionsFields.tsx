@@ -22,7 +22,11 @@ const SocialConditionsFields = ({ form }: SocialConditionsFieldsProps) => {
           <FormItem>
             <FormLabel>Condições de Moradia</FormLabel>
             <FormControl>
-              <Input placeholder="Descreva as condições de moradia" {...field} />
+              <Input 
+                placeholder="Descreva as condições de moradia" 
+                {...field} 
+                className="h-11 bg-white" 
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -36,7 +40,11 @@ const SocialConditionsFields = ({ form }: SocialConditionsFieldsProps) => {
           <FormItem>
             <FormLabel>Situação Socioeconômica</FormLabel>
             <FormControl>
-              <Input placeholder="Descreva a situação socioeconômica" {...field} />
+              <Input 
+                placeholder="Descreva a situação socioeconômica" 
+                {...field} 
+                className="h-11 bg-white" 
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -54,11 +62,11 @@ const SocialConditionsFields = ({ form }: SocialConditionsFieldsProps) => {
               defaultValue={field.value}
             >
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-11 bg-white">
                   <SelectValue placeholder="Selecione o benefício social" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="nenhum">Nenhum</SelectItem>
                 <SelectItem value="bolsa_familia">Bolsa Família</SelectItem>
                 <SelectItem value="bpc">BPC (Benefício de Prestação Continuada)</SelectItem>

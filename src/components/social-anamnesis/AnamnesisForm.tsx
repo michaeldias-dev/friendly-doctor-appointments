@@ -67,8 +67,8 @@ const AnamnesisForm = ({ onSuccess }: AnamnesisFormProps) => {
         <SupportNetworkFields form={form} />
         <NotesAndPlanFields form={form} />
 
-        <div className="flex justify-end gap-3 pt-4 pb-6">
-          <Button type="submit" size="lg" className="px-6">Salvar Anamnese</Button>
+        <div className="flex justify-end gap-3 pt-4 pb-8">
+          <Button type="submit" size="lg" className="px-8">Salvar Anamnese</Button>
         </div>
       </form>
     </Form>

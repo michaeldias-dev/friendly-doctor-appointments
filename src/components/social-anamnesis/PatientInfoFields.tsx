@@ -16,9 +16,13 @@ const PatientInfoFields = ({ form }: PatientInfoFieldsProps) => {
         name="patientName"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Nome do Paciente</FormLabel>
+            <FormLabel className="text-base">Nome do Paciente</FormLabel>
             <FormControl>
-              <Input placeholder="Digite o nome do paciente" {...field} />
+              <Input 
+                placeholder="Digite o nome do paciente" 
+                {...field} 
+                className="h-11 bg-white" 
+              />
             </FormControl>
           </FormItem>
         )}

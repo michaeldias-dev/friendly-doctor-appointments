@@ -19,7 +19,7 @@ const SupportNetworkFields = ({ form }: SupportNetworkFieldsProps) => {
           <FormControl>
             <Textarea 
               placeholder="Descreva a rede de apoio do paciente"
-              className="min-h-[100px]"
+              className="min-h-[100px] bg-white"
               {...field} 
             />
           </FormControl>

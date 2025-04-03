@@ -104,6 +104,11 @@
   width: 40px !important;
   height: 40px !important;
   font-size: 0.95rem !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
 }
 
 .rdp-caption {
@@ -121,6 +126,14 @@ textarea:focus-visible,
 [data-radix-select-trigger]:focus-visible {
   outline: 2px solid var(--ring) !important;
   outline-offset: 1px !important;
+  box-shadow: 0 0 0 2px rgba(79, 209, 197, 0.2) !important;
+}
+
+/* Melhoria no espaçamento dos inputs e áreas de texto quando em foco */
+input:focus, 
+textarea:focus,
+[data-radix-select-trigger]:focus {
+  border-color: rgb(79, 209, 197) !important;
 }
 
 /* Animation fixes */

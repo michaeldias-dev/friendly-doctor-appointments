@@ -67,7 +67,7 @@ const NewRecord = ({ onSuccess }: NewRecordProps) => {
         <SheetTitle className="text-xl">Novo Prontuário Médico</SheetTitle>
       </SheetHeader>
 
-      <div className="flex-1 overflow-y-auto mt-6">
+      <div className="flex-1 overflow-y-auto mt-6 px-1">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <FormField
@@ -77,7 +77,11 @@ const NewRecord = ({ onSuccess }: NewRecordProps) => {
                 <FormItem>
                   <FormLabel className="text-base">Nome do Paciente</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite o nome do paciente" {...field} className="h-11" />
+                    <Input 
+                      placeholder="Digite o nome do paciente" 
+                      {...field} 
+                      className="h-11 bg-white" 
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -90,7 +94,11 @@ const NewRecord = ({ onSuccess }: NewRecordProps) => {
                 <FormItem>
                   <FormLabel className="text-base">Diagnóstico</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite o diagnóstico" {...field} className="h-11" />
+                    <Input 
+                      placeholder="Digite o diagnóstico" 
+                      {...field} 
+                      className="h-11 bg-white" 
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -103,7 +111,11 @@ const NewRecord = ({ onSuccess }: NewRecordProps) => {
                 <FormItem>
                   <FormLabel className="text-base">Tratamento</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite o tratamento prescrito" {...field} className="h-11" />
+                    <Input 
+                      placeholder="Digite o tratamento prescrito" 
+                      {...field} 
+                      className="h-11 bg-white" 
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -118,7 +130,7 @@ const NewRecord = ({ onSuccess }: NewRecordProps) => {
                   <FormControl>
                     <Textarea 
                       placeholder="Digite as observações sobre o paciente"
-                      className="min-h-[140px]"
+                      className="min-h-[140px] bg-white"
                       {...field}
                     />
                   </FormControl>
@@ -133,14 +145,14 @@ const NewRecord = ({ onSuccess }: NewRecordProps) => {
                 <FormItem>
                   <FormLabel className="text-base">Próxima Visita</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} className="h-11" />
+                    <Input type="date" {...field} className="h-11 bg-white" />
                   </FormControl>
                 </FormItem>
               )}
             />
 
-            <div className="flex justify-end gap-3 pt-4 pb-6">
-              <Button type="submit" size="lg" className="px-6">Salvar Prontuário</Button>
+            <div className="flex justify-end gap-3 pt-4 pb-8">
+              <Button type="submit" size="lg" className="px-8">Salvar Prontuário</Button>
             </div>
           </form>
         </Form>
