@@ -33,7 +33,7 @@ const ProfessionalFilter = ({
   };
 
   return (
-    <div className="flex flex-col space-y-1.5 mb-4" ref={selectRef}>
+    <div className="flex flex-col space-y-1.5 mb-5" ref={selectRef}>
       <Label htmlFor="professional-filter">Filtrar por Profissional</Label>
       <Select 
         value={value}
@@ -47,9 +47,8 @@ const ProfessionalFilter = ({
         </SelectTrigger>
         <SelectContent 
           position="popper" 
-          className="bg-white text-gray-900"
-          style={{ zIndex: 100 }}
-          sideOffset={4}
+          className="bg-white text-gray-900 z-50"
+          sideOffset={5}
           align="start"
         >
           <SelectItem value="all" className="hover:bg-gray-100">

@@ -19,15 +19,15 @@ const AppointmentFormFields = ({ form, professionals, isLoading }: AppointmentFo
         control={form.control}
         name="professionalId"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className="mb-4">
             <FormLabel>Profissional</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="bg-white">
                   <SelectValue placeholder="Selecione o profissional" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="bg-white z-50" sideOffset={4}>
                 {isLoading ? (
                   <SelectItem value="loading" disabled>Carregando profissionais...</SelectItem>
                 ) : professionals.length === 0 ? (
@@ -50,10 +50,10 @@ const AppointmentFormFields = ({ form, professionals, isLoading }: AppointmentFo
         control={form.control}
         name="patientName"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className="mb-4">
             <FormLabel>Nome do Paciente</FormLabel>
             <FormControl>
-              <Input placeholder="Digite o nome do paciente" {...field} />
+              <Input placeholder="Digite o nome do paciente" {...field} className="bg-white" />
             </FormControl>
           </FormItem>
         )}
@@ -63,16 +63,16 @@ const AppointmentFormFields = ({ form, professionals, isLoading }: AppointmentFo
         control={form.control}
         name="congregation"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className="mb-4">
             <FormLabel>Comum Congregação</FormLabel>
             <FormControl>
-              <Input placeholder="Digite a congregação do paciente" {...field} />
+              <Input placeholder="Digite a congregação do paciente" {...field} className="bg-white" />
             </FormControl>
           </FormItem>
         )}
       />
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 mb-4">
         <FormField
           control={form.control}
           name="date"
@@ -80,7 +80,7 @@ const AppointmentFormFields = ({ form, professionals, isLoading }: AppointmentFo
             <FormItem>
               <FormLabel>Data</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+                <Input type="date" {...field} className="bg-white" />
               </FormControl>
             </FormItem>
           )}
@@ -93,7 +93,7 @@ const AppointmentFormFields = ({ form, professionals, isLoading }: AppointmentFo
             <FormItem>
               <FormLabel>Horário</FormLabel>
               <FormControl>
-                <Input type="time" {...field} />
+                <Input type="time" {...field} className="bg-white" />
               </FormControl>
             </FormItem>
           )}
@@ -104,15 +104,15 @@ const AppointmentFormFields = ({ form, professionals, isLoading }: AppointmentFo
         control={form.control}
         name="type"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className="mb-4">
             <FormLabel>Tipo de Consulta</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="bg-white">
                   <SelectValue placeholder="Selecione o tipo de consulta" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent position="popper" className="bg-white z-50" sideOffset={4}>
                 <SelectItem value="routine">Consulta de Rotina</SelectItem>
                 <SelectItem value="return">Retorno</SelectItem>
                 <SelectItem value="exam">Exames</SelectItem>
@@ -132,7 +132,7 @@ const AppointmentFormFields = ({ form, professionals, isLoading }: AppointmentFo
             <FormControl>
               <Textarea 
                 placeholder="Digite observações sobre a consulta"
-                className="min-h-[120px]"
+                className="min-h-[120px] bg-white"
                 {...field}
               />
             </FormControl>

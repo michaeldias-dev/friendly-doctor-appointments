@@ -19,25 +19,27 @@ const AppointmentCalendar = ({
       <CardHeader>
         <CardTitle>Agenda</CardTitle>
       </CardHeader>
-      <CardContent>
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={onDateSelect}
-          className="rounded-md border pointer-events-auto mx-auto scale-110 transform-gpu pb-4"
-          locale={ptBR}
-          modifiers={{
-            booked: (date) => isDayWithAppointments(date)
-          }}
-          modifiersStyles={{
-            booked: {
-              fontWeight: 'bold',
-              backgroundColor: '#e5f6ff',
-              borderColor: '#0ea5e9',
-              color: '#0369a1'
-            }
-          }}
-        />
+      <CardContent className="pb-6">
+        <div className="flex justify-center">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={onDateSelect}
+            className="rounded-md border pointer-events-auto scale-100 transform-gpu"
+            locale={ptBR}
+            modifiers={{
+              booked: (date) => isDayWithAppointments(date)
+            }}
+            modifiersStyles={{
+              booked: {
+                fontWeight: 'bold',
+                backgroundColor: '#e5f6ff',
+                borderColor: '#0ea5e9',
+                color: '#0369a1'
+              }
+            }}
+          />
+        </div>
       </CardContent>
     </Card>
   );

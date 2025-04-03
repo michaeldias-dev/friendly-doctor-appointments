@@ -18,16 +18,16 @@ const NewAppointment = ({ onSuccess }: NewAppointmentProps) => {
         <SheetTitle className="text-xl">Nova Consulta</SheetTitle>
       </SheetHeader>
 
-      <div className="flex-1 overflow-y-auto mt-6">
+      <div className="flex-1 overflow-y-auto mt-6 px-1">
         <Form {...form}>
-          <form onSubmit={onSubmit} className="space-y-5">
+          <form onSubmit={onSubmit} className="space-y-4">
             <AppointmentFormFields 
               form={form}
               professionals={professionals}
               isLoading={isLoading}
             />
 
-            <div className="flex justify-end gap-3 pt-4 pb-6">
+            <div className="flex justify-end gap-3 pt-4 pb-8">
               <Button type="submit" size="lg" className="px-6">Agendar Consulta</Button>
             </div>
           </form>
