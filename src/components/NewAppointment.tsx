@@ -15,12 +15,12 @@ const NewAppointment = ({ onSuccess }: NewAppointmentProps) => {
   return (
     <div className="h-full flex flex-col">
       <SheetHeader className="flex-none">
-        <SheetTitle>Nova Consulta</SheetTitle>
+        <SheetTitle className="text-xl">Nova Consulta</SheetTitle>
       </SheetHeader>
 
       <div className="flex-1 overflow-y-auto mt-6">
         <Form {...form}>
-          <form onSubmit={onSubmit} className="space-y-4">
+          <form onSubmit={onSubmit} className="space-y-5">
             <AppointmentFormFields 
               form={form}
               professionals={professionals}
@@ -28,7 +28,7 @@ const NewAppointment = ({ onSuccess }: NewAppointmentProps) => {
             />
 
             <div className="flex justify-end gap-3 pt-4 pb-6">
-              <Button type="submit">Agendar Consulta</Button>
+              <Button type="submit" size="lg" className="px-6">Agendar Consulta</Button>
             </div>
           </form>
         </Form>

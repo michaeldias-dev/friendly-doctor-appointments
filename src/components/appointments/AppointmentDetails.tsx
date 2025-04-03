@@ -40,7 +40,7 @@ const AppointmentDetails = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-md md:max-w-lg">
         <DialogHeader>
           <DialogTitle>Detalhes da Consulta</DialogTitle>
         </DialogHeader>

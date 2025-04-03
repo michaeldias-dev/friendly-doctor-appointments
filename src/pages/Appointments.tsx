@@ -51,20 +51,24 @@ const Appointments = () => {
           isLoading={isLoading}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <AppointmentCalendar 
-            date={date} 
-            onDateSelect={setDate} 
-            isDayWithAppointments={isDayWithAppointments} 
-          />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+          <div className="md:col-span-1">
+            <AppointmentCalendar 
+              date={date} 
+              onDateSelect={setDate} 
+              isDayWithAppointments={isDayWithAppointments} 
+            />
+          </div>
 
-          <AppointmentsList 
-            date={date}
-            filteredAppointments={filteredAppointments}
-            isLoading={isLoading}
-            onViewDetails={setSelectedAppointment}
-            appointmentTypes={appointmentTypes}
-          />
+          <div className="md:col-span-2">
+            <AppointmentsList 
+              date={date}
+              filteredAppointments={filteredAppointments}
+              isLoading={isLoading}
+              onViewDetails={setSelectedAppointment}
+              appointmentTypes={appointmentTypes}
+            />
+          </div>
         </div>
 
         <AppointmentDetails 

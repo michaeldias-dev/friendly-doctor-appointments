@@ -13,9 +13,9 @@ const AppointmentHeader = ({ onSuccess }: AppointmentHeaderProps) => {
       <h1 className="text-2xl font-bold text-gray-900">Consultas</h1>
       <Sheet>
         <SheetTrigger asChild>
-          <Button>Nova Consulta</Button>
+          <Button size="lg" className="px-6">Nova Consulta</Button>
         </SheetTrigger>
-        <SheetContent className="w-full sm:max-w-xl">
+        <SheetContent className="w-full sm:max-w-xl md:max-w-2xl">
           <NewAppointment onSuccess={onSuccess} />
         </SheetContent>
       </Sheet>

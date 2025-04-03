@@ -64,20 +64,20 @@ const NewRecord = ({ onSuccess }: NewRecordProps) => {
   return (
     <div className="h-full flex flex-col">
       <SheetHeader className="flex-none">
-        <SheetTitle>Novo Prontuário Médico</SheetTitle>
+        <SheetTitle className="text-xl">Novo Prontuário Médico</SheetTitle>
       </SheetHeader>
 
       <div className="flex-1 overflow-y-auto mt-6">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <FormField
               control={form.control}
               name="patientName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome do Paciente</FormLabel>
+                  <FormLabel className="text-base">Nome do Paciente</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite o nome do paciente" {...field} />
+                    <Input placeholder="Digite o nome do paciente" {...field} className="h-11" />
                   </FormControl>
                 </FormItem>
               )}
@@ -88,9 +88,9 @@ const NewRecord = ({ onSuccess }: NewRecordProps) => {
               name="diagnosis"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Diagnóstico</FormLabel>
+                  <FormLabel className="text-base">Diagnóstico</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite o diagnóstico" {...field} />
+                    <Input placeholder="Digite o diagnóstico" {...field} className="h-11" />
                   </FormControl>
                 </FormItem>
               )}
@@ -101,9 +101,9 @@ const NewRecord = ({ onSuccess }: NewRecordProps) => {
               name="treatment"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tratamento</FormLabel>
+                  <FormLabel className="text-base">Tratamento</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite o tratamento prescrito" {...field} />
+                    <Input placeholder="Digite o tratamento prescrito" {...field} className="h-11" />
                   </FormControl>
                 </FormItem>
               )}
@@ -114,11 +114,11 @@ const NewRecord = ({ onSuccess }: NewRecordProps) => {
               name="notes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Observações</FormLabel>
+                  <FormLabel className="text-base">Observações</FormLabel>
                   <FormControl>
                     <Textarea 
                       placeholder="Digite as observações sobre o paciente"
-                      className="min-h-[120px]"
+                      className="min-h-[140px]"
                       {...field}
                     />
                   </FormControl>
@@ -131,16 +131,16 @@ const NewRecord = ({ onSuccess }: NewRecordProps) => {
               name="nextVisit"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Próxima Visita</FormLabel>
+                  <FormLabel className="text-base">Próxima Visita</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} />
+                    <Input type="date" {...field} className="h-11" />
                   </FormControl>
                 </FormItem>
               )}
             />
 
             <div className="flex justify-end gap-3 pt-4 pb-6">
-              <Button type="submit">Salvar Prontuário</Button>
+              <Button type="submit" size="lg" className="px-6">Salvar Prontuário</Button>
             </div>
           </form>
         </Form>

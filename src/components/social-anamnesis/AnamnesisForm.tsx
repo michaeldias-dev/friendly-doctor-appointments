@@ -61,14 +61,14 @@ const AnamnesisForm = ({ onSuccess }: AnamnesisFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
         <PatientInfoFields form={form} />
         <SocialConditionsFields form={form} />
         <SupportNetworkFields form={form} />
         <NotesAndPlanFields form={form} />
 
         <div className="flex justify-end gap-3 pt-4 pb-6">
-          <Button type="submit">Salvar Anamnese</Button>
+          <Button type="submit" size="lg" className="px-6">Salvar Anamnese</Button>
         </div>
       </form>
     </Form>

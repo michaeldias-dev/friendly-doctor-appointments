@@ -10,7 +10,7 @@ const NewSocialAnamnesis = ({ onSuccess }: NewSocialAnamnesisProps) => {
   return (
     <div className="h-full flex flex-col">
       <SheetHeader className="flex-none">
-        <SheetTitle>Nova Anamnese Social</SheetTitle>
+        <SheetTitle className="text-xl">Nova Anamnese Social</SheetTitle>
       </SheetHeader>
 
       <div className="flex-1 overflow-y-auto mt-6">
