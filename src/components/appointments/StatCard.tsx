@@ -14,13 +14,13 @@ const StatCard = ({ title, value, icon, isLoading }: StatCardProps) => {
     <Card className="hover:shadow-md transition-shadow">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <div className="h-9 w-9 rounded-lg bg-primary-100 p-2 text-primary-700">
+        <div className="h-10 w-10 rounded-lg bg-primary-100 p-2 text-primary-700">
           {icon}
         </div>
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <div className="h-10 w-16 bg-gray-200 animate-pulse rounded"></div>
+          <div className="h-12 w-20 bg-gray-200 animate-pulse rounded"></div>
         ) : (
           <p className="text-3xl font-bold">{value}</p>
         )}
