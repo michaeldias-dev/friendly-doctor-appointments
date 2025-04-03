@@ -71,7 +71,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
             <SheetContent side="left" className="w-64 p-0 bg-white">
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between p-4 border-b">
-                  <h1 className="text-xl font-bold text-primary-700">MedSchedule</h1>
+                  <h1 className="text-xl font-bold text-primary-700">DEPAC CCB</h1>
                   <button onClick={closeMobileMenu} className="p-1">
                     <X className="h-5 w-5 text-gray-500" />
                   </button>
@@ -123,7 +123,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
         <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
           <div className="flex flex-col flex-1 min-h-0 bg-white border-r">
             <div className="flex items-center h-16 flex-shrink-0 px-4 border-b">
-              <h1 className="text-lg font-semibold text-primary-600">MedSchedule</h1>
+              <h1 className="text-lg font-semibold text-primary-600">DEPAC CCB</h1>
             </div>
             <div className="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
               <nav className="flex-1 px-4 space-y-2">

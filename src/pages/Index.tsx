@@ -8,7 +8,7 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-primary-50 to-white">
       <nav className="container mx-auto px-6 py-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-primary-700">MedSchedule</h1>
+          <h1 className="text-2xl font-bold text-primary-700">DEPAC CCB</h1>
           <Link to="/auth">
             <Button variant="outline" className="font-medium">
               Login do Médico
@@ -69,7 +69,7 @@ const Index = () => {
 
       <footer className="container mx-auto px-6 py-8 border-t">
         <div className="text-center text-gray-600">
-          <p>&copy; 2024 MedSchedule. Todos os direitos reservados.</p>
+          <p>&copy; 2024 DEPAC CCB. Todos os direitos reservados.</p>
         </div>
       </footer>
     </div>

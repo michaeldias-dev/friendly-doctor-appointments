@@ -93,7 +93,7 @@ export function Sidebar() {
               <div className="p-4 border-b">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-primary-600">
-                    MediApp
+                    DEPAC CCB
                   </h2>
                   <Button
                     variant="ghost"
@@ -131,7 +131,7 @@ export function Sidebar() {
       <aside className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
         <div className="flex flex-col flex-1 min-h-0 bg-white border-r">
           <div className="flex items-center h-16 flex-shrink-0 px-4 border-b">
-            <h2 className="text-lg font-semibold text-primary-600">MediApp</h2>
+            <h2 className="text-lg font-semibold text-primary-600">DEPAC CCB</h2>
           </div>
           <div className="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
             <nav className="flex-1 px-4 space-y-2">

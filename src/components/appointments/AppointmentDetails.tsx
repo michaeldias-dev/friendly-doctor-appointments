@@ -26,8 +26,9 @@ const AppointmentDetails = ({
 }: AppointmentDetailsProps) => {
   if (!appointment) return null;
 
+  // Fix the date rendering by explicitly using the date without timezone conversion
   const formattedDate = format(
-    new Date(appointment.date), 
+    new Date(appointment.date + 'T00:00:00'), 
     "d 'de' MMMM, yyyy", 
     { locale: ptBR }
   );
