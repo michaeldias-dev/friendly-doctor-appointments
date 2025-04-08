@@ -18,7 +18,10 @@ export const useUserData = () => {
         .select('id, first_name, last_name, specialty, approved, created_at, role, email')
         .order('created_at', { ascending: false });
 
-      if (profilesError) throw profilesError;
+      if (profilesError) {
+        console.error("Error fetching profiles:", profilesError);
+        throw profilesError;
+      }
 
       console.log("Profiles loaded:", profilesData);
       
@@ -37,11 +40,11 @@ export const useUserData = () => {
       });
 
       setUsers(sortedUsers);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error loading users:", error);
       toast({
-        title: "Error",
-        description: "Could not load users",
+        title: "Erro",
+        description: "Não foi possível carregar a lista de usuários",
         variant: "destructive"
       });
     } finally {

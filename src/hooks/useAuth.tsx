@@ -70,6 +70,11 @@ export const useAuth = () => {
 
       if (profileData.approved === false) {
         await supabase.auth.signOut();
+        throw new Error("Sua conta foi rejeitada pelo administrador.");
+      }
+
+      if (profileData.approved === null) {
+        await supabase.auth.signOut();
         throw new Error("Sua conta ainda está em análise. Você receberá um email quando for aprovada.");
       }
 
@@ -95,7 +100,7 @@ export const useAuth = () => {
 
   const handleRegister = async () => {
     try {
-      // Desativando a confirmação de email configurando emailRedirectTo como null
+      // Criando novo usuário
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -117,13 +122,25 @@ export const useAuth = () => {
           .from('profiles')
           .update({ 
             email: formData.email,
-            approved: null // Definir explicitamente como null para indicar "pendente"
+            approved: null, // Definir explicitamente como null para indicar "pendente"
+            specialty: formData.specialty,
+            first_name: formData.firstName,
+            last_name: formData.lastName
           })
           .eq('id', data.user.id);
         
         if (profileError) {
           console.error("Erro ao atualizar perfil:", profileError);
+          throw profileError;
         }
+        
+        console.log("Novo usuário registrado:", {
+          id: data.user.id,
+          email: formData.email,
+          name: `${formData.firstName} ${formData.lastName}`,
+          specialty: formData.specialty,
+          approved: null
+        });
       }
 
       setRegistrationComplete(true);

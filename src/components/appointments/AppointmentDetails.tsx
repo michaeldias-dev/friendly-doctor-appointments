@@ -42,7 +42,18 @@ const AppointmentDetails = ({
   const { professionals } = useProfessionals();
   const [isLoading, setIsLoading] = useState(false);
   
-  const form = useForm();
+  // Initialize the form with useForm
+  const form = useForm({
+    defaultValues: {
+      patientName: "",
+      date: "",
+      time: "",
+      type: "",
+      professionalId: "",
+      congregation: "",
+      notes: ""
+    }
+  });
   
   useEffect(() => {
     if (appointment && open) {
