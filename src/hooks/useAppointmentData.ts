@@ -74,7 +74,7 @@ export const useAppointmentData = () => {
       
       if (professionalIds.length > 0) {
         const { data: professionalsData, error: professionalsError } = await supabase
-          .from("profiles")
+          .from("professionals")
           .select("id, first_name, last_name")
           .in("id", professionalIds);
         

@@ -11,9 +11,8 @@ export const useProfessionals = () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from("profiles")
+        .from("professionals")
         .select("id, first_name, last_name, specialty")
-        .eq("approved", true)
         .order("first_name", { ascending: true });
 
       if (error) throw error;
@@ -33,17 +32,13 @@ export const useProfessionals = () => {
   const createProfessional = async (professional: Omit<Professional, 'id'>) => {
     try {
       setLoading(true);
-      // Generate a random UUID for the new professional
-      const id = crypto.randomUUID();
       
       const { error } = await supabase
-        .from("profiles")
+        .from("professionals")
         .insert({
-          id,
           first_name: professional.first_name,
           last_name: professional.last_name,
-          specialty: professional.specialty,
-          approved: true
+          specialty: professional.specialty
         });
 
       if (error) throw error;
@@ -63,7 +58,7 @@ export const useProfessionals = () => {
     try {
       setLoading(true);
       const { error } = await supabase
-        .from("profiles")
+        .from("professionals")
         .update(updates)
         .eq("id", id);
 
@@ -84,7 +79,7 @@ export const useProfessionals = () => {
     try {
       setLoading(true);
       const { error } = await supabase
-        .from("profiles")
+        .from("professionals")
         .delete()
         .eq("id", id);
 

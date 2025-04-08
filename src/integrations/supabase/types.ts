@@ -17,7 +17,8 @@ export type Database = {
           id: string
           notes: string | null
           patient_name: string
-          professional_id: string
+          professional_id: string | null
+          profile_id: string
           time: string
           type: string
           updated_at: string
@@ -29,7 +30,8 @@ export type Database = {
           id?: string
           notes?: string | null
           patient_name: string
-          professional_id: string
+          professional_id?: string | null
+          profile_id: string
           time: string
           type: string
           updated_at?: string
@@ -41,12 +43,21 @@ export type Database = {
           id?: string
           notes?: string | null
           patient_name?: string
-          professional_id?: string
+          professional_id?: string | null
+          profile_id?: string
           time?: string
           type?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "appointments_professional_id_fkey"
+            columns: ["professional_id"]
+            isOneToOne: false
+            referencedRelation: "professionals"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       medical_records: {
         Row: {
@@ -91,6 +102,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      professionals: {
+        Row: {
+          created_at: string
+          first_name: string
+          id: string
+          last_name: string
+          specialty: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          first_name: string
+          id?: string
+          last_name: string
+          specialty?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          specialty?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {

@@ -18,7 +18,7 @@ const ProfessionalsList = ({ onEdit, searchTerm = '' }: ProfessionalsListProps) 
   const { toast } = useToast();
   
   // Setup realtime updates
-  useRealtimeUpdates('profiles', refresh);
+  useRealtimeUpdates('professionals', refresh);
 
   // Filter professionals based on search term
   const filteredProfessionals = professionals.filter(prof => {

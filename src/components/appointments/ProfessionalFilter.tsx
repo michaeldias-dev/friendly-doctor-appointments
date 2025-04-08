@@ -2,9 +2,10 @@
 import { useState, useRef, useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Professional } from "@/types/professional";
 
 interface ProfessionalFilterProps {
-  professionals: { id: string; name: string }[];
+  professionals: Professional[];
   selectedProfessionalId: string | null;
   onChange: (id: string) => void;
 }
@@ -60,7 +61,8 @@ const ProfessionalFilter = ({
               value={professional.id} 
               className="hover:bg-gray-100"
             >
-              {professional.name}
+              {professional.first_name} {professional.last_name}
+              {professional.specialty && ` (${professional.specialty})`}
             </SelectItem>
           ))}
         </SelectContent>

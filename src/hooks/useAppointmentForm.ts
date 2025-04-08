@@ -25,9 +25,8 @@ export const useAppointmentForm = (onSuccess?: () => void) => {
     const fetchProfessionals = async () => {
       try {
         const { data, error } = await supabase
-          .from("profiles")
+          .from("professionals")
           .select("id, first_name, last_name, specialty")
-          .eq("approved", true)
           .order("first_name", { ascending: true });
 
         if (error) throw error;
