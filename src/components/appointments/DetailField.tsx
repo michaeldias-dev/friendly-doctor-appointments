@@ -8,6 +8,7 @@ export interface DetailFieldProps {
 }
 
 const DetailField = ({ label, value, className }: DetailFieldProps) => {
+  // Se o valor for nulo ou indefinido, não renderizar o componente
   if (value === null || value === undefined) return null;
   
   return (
