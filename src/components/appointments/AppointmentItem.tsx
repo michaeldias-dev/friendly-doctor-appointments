@@ -1,10 +1,8 @@
 
-import { format } from "date-fns";
-import { Eye } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Appointment, AppointmentTypes } from "@/types/appointment";
-import AppointmentTypeBadge from "./AppointmentTypeBadge";
+import { Button } from "@/components/ui/button";
 import AppointmentTime from "./AppointmentTime";
+import AppointmentTypeBadge from "./AppointmentTypeBadge";
 
 interface AppointmentItemProps {
   appointment: Appointment;
@@ -14,35 +12,45 @@ interface AppointmentItemProps {
 
 const AppointmentItem = ({ 
   appointment, 
-  onViewDetails, 
-  appointmentTypes 
+  onViewDetails,
+  appointmentTypes
 }: AppointmentItemProps) => {
   return (
-    <div
-      className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
-    >
-      <div>
-        <p className="font-medium">{appointment.patient_name}</p>
-        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-          <AppointmentTypeBadge 
-            type={appointment.type} 
-            appointmentTypes={appointmentTypes} 
-          />
-          <span className="hidden sm:inline text-xs text-gray-400">•</span>
-          <p className="text-sm text-gray-500">
-            {appointment.professional_name}
-          </p>
+    <div className="bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow p-4">
+      <div className="flex justify-between">
+        <div className="flex-1">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-medium text-lg">{appointment.patient_name}</h3>
+            <AppointmentTypeBadge type={appointment.type} types={appointmentTypes} />
+          </div>
+          
+          <div className="text-sm text-muted-foreground mb-2">
+            <AppointmentTime time={appointment.time} /> • {appointment.professional_name || "Profissional não atribuído"}
+          </div>
+          
+          {appointment.congregation && (
+            <div className="text-xs text-gray-500 mb-2">
+              Congregação: {appointment.congregation}
+            </div>
+          )}
+
+          {appointment.notes && appointment.notes.length > 50 ? (
+            <p className="text-sm text-gray-700">
+              {appointment.notes.substring(0, 50)}...
+            </p>
+          ) : appointment.notes ? (
+            <p className="text-sm text-gray-700">{appointment.notes}</p>
+          ) : null}
         </div>
       </div>
-      <div className="flex items-center gap-4">
-        <AppointmentTime time={appointment.time} />
-        <Button
-          variant="outline"
-          size="sm"
+      
+      <div className="mt-3 pt-2 border-t flex justify-end">
+        <Button 
+          variant="ghost"
+          size="sm" 
           onClick={() => onViewDetails(appointment)}
         >
-          <Eye className="h-4 w-4 mr-2" />
-          Ver Detalhes
+          Ver detalhes
         </Button>
       </div>
     </div>

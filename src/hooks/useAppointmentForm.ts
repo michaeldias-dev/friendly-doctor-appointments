@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Professional } from "@/types/professional";
+import { Tables } from "@/types/supabase";
 
 interface NewAppointmentForm {
   patientName: string;
@@ -25,12 +26,12 @@ export const useAppointmentForm = (onSuccess?: () => void) => {
     const fetchProfessionals = async () => {
       try {
         const { data, error } = await supabase
-          .from("professionals")
+          .from<Tables['professionals']['Row']>('professionals')
           .select("id, first_name, last_name, specialty")
           .order("first_name", { ascending: true });
 
         if (error) throw error;
-        setProfessionals(data || []);
+        setProfessionals(data as Professional[] || []);
       } catch (error: any) {
         console.error("Erro ao carregar profissionais:", error.message);
         toast({
@@ -55,9 +56,10 @@ export const useAppointmentForm = (onSuccess?: () => void) => {
       }
 
       const { error } = await supabase
-        .from("appointments")
+        .from<Tables['appointments']['Row']>('appointments')
         .insert([{
           professional_id: data.professionalId,
+          profile_id: null, // Não vinculamos mais às consultas
           patient_name: data.patientName,
           date: data.date,
           time: data.time,

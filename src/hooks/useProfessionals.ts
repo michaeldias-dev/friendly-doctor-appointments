@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Professional } from '@/types/professional';
+import { Tables } from '@/types/supabase';
 
 export const useProfessionals = () => {
   const [professionals, setProfessionals] = useState<Professional[]>([]);
@@ -11,13 +12,13 @@ export const useProfessionals = () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from("professionals")
+        .from<Tables['professionals']['Row']>('professionals')
         .select("id, first_name, last_name, specialty")
         .order("first_name", { ascending: true });
 
       if (error) throw error;
 
-      setProfessionals(data || []);
+      setProfessionals(data as Professional[] || []);
     } catch (error) {
       console.error("Erro ao carregar profissionais:", error);
     } finally {
@@ -34,7 +35,7 @@ export const useProfessionals = () => {
       setLoading(true);
       
       const { error } = await supabase
-        .from("professionals")
+        .from<Tables['professionals']['Row']>('professionals')
         .insert({
           first_name: professional.first_name,
           last_name: professional.last_name,
@@ -58,7 +59,7 @@ export const useProfessionals = () => {
     try {
       setLoading(true);
       const { error } = await supabase
-        .from("professionals")
+        .from<Tables['professionals']['Row']>('professionals')
         .update(updates)
         .eq("id", id);
 
@@ -75,33 +76,11 @@ export const useProfessionals = () => {
     }
   };
 
-  const deleteProfessional = async (id: string) => {
-    try {
-      setLoading(true);
-      const { error } = await supabase
-        .from("professionals")
-        .delete()
-        .eq("id", id);
-
-      if (error) throw error;
-      
-      // Reload professionals after deleting
-      loadProfessionals();
-      return { success: true };
-    } catch (error) {
-      console.error("Erro ao excluir profissional:", error);
-      return { success: false, error };
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return { 
     professionals, 
     loading, 
     createProfessional, 
-    updateProfessional, 
-    deleteProfessional,
+    updateProfessional,
     refresh: loadProfessionals
   };
 };

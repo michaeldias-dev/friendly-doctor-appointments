@@ -5,6 +5,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Appointment } from '@/types/appointment';
 import { parseISO } from 'date-fns';
+import { Tables } from '@/types/supabase';
 
 export const useAppointmentData = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -43,7 +44,7 @@ export const useAppointmentData = () => {
       }
 
       let appointmentsQuery = supabase
-        .from("appointments")
+        .from<Tables['appointments']['Row']>('appointments')
         .select(`
           id, 
           patient_name, 
@@ -70,11 +71,11 @@ export const useAppointmentData = () => {
       // Make sure we have data before trying to extract professional IDs
       const professionalIds = Array.from(new Set((appointmentsData || [])
         .filter(apt => apt?.professional_id) // Ensure professional_id exists
-        .map(apt => apt.professional_id)));
+        .map(apt => apt.professional_id as string)));
       
       if (professionalIds.length > 0) {
         const { data: professionalsData, error: professionalsError } = await supabase
-          .from("professionals")
+          .from<Tables['professionals']['Row']>('professionals')
           .select("id, first_name, last_name")
           .in("id", professionalIds);
         
@@ -89,7 +90,7 @@ export const useAppointmentData = () => {
           return {
             ...apt,
             type: apt.type as "routine" | "return" | "exam" | "emergency",
-            professional_name: professionalMap[apt.professional_id] || 'Profissional não encontrado'
+            professional_name: professionalMap[apt.professional_id || ''] || 'Profissional não encontrado'
           };
         });
 
@@ -109,6 +110,73 @@ export const useAppointmentData = () => {
       console.error("Erro ao carregar consultas:", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Função para deletar uma consulta
+  const deleteAppointment = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from<Tables['appointments']['Row']>('appointments')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      toast({
+        title: "Sucesso",
+        description: "Consulta excluída com sucesso!",
+      });
+      
+      // Recarregar as consultas após a exclusão
+      loadAppointments();
+      return true;
+    } catch (error: any) {
+      console.error("Erro ao excluir consulta:", error);
+      toast({
+        title: "Erro",
+        description: `Não foi possível excluir a consulta: ${error.message}`,
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
+  // Função para atualizar uma consulta
+  const updateAppointment = async (id: string, updates: Partial<Appointment>) => {
+    try {
+      const { error } = await supabase
+        .from<Tables['appointments']['Row']>('appointments')
+        .update({
+          patient_name: updates.patient_name,
+          date: updates.date,
+          time: updates.time,
+          type: updates.type,
+          notes: updates.notes || null,
+          congregation: updates.congregation || null,
+          professional_id: updates.professional_id,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      toast({
+        title: "Sucesso",
+        description: "Consulta atualizada com sucesso!",
+      });
+      
+      // Recarregar as consultas após a atualização
+      loadAppointments();
+      return true;
+    } catch (error: any) {
+      console.error("Erro ao atualizar consulta:", error);
+      toast({
+        title: "Erro",
+        description: `Não foi possível atualizar a consulta: ${error.message}`,
+        variant: "destructive",
+      });
+      return false;
     }
   };
 
@@ -139,6 +207,8 @@ export const useAppointmentData = () => {
     appointmentDates,
     loadAppointments,
     selectedProfessionalId,
-    setSelectedProfessionalId
+    setSelectedProfessionalId,
+    deleteAppointment,
+    updateAppointment
   };
 };

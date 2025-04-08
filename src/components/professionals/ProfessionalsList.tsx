@@ -5,7 +5,7 @@ import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates';
 import { Professional } from '@/types/professional';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface ProfessionalsListProps {
@@ -14,7 +14,7 @@ interface ProfessionalsListProps {
 }
 
 const ProfessionalsList = ({ onEdit, searchTerm = '' }: ProfessionalsListProps) => {
-  const { professionals, loading, deleteProfessional, refresh } = useProfessionals();
+  const { professionals, loading, refresh } = useProfessionals();
   const { toast } = useToast();
   
   // Setup realtime updates
@@ -28,25 +28,6 @@ const ProfessionalsList = ({ onEdit, searchTerm = '' }: ProfessionalsListProps) 
     
     return fullName.includes(search) || specialty.includes(search);
   });
-
-  const handleDelete = async (id: string) => {
-    if (confirm('Tem certeza que deseja excluir este profissional?')) {
-      const result = await deleteProfessional(id);
-      
-      if (result.success) {
-        toast({
-          title: 'Profissional excluído',
-          description: 'O profissional foi excluído com sucesso.',
-        });
-      } else {
-        toast({
-          title: 'Erro ao excluir profissional',
-          description: 'Não foi possível excluir o profissional.',
-          variant: 'destructive',
-        });
-      }
-    }
-  };
 
   if (loading) {
     return (
@@ -106,13 +87,6 @@ const ProfessionalsList = ({ onEdit, searchTerm = '' }: ProfessionalsListProps) 
                     onClick={() => onEdit(professional)}
                   >
                     <Pencil className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDelete(professional.id)}
-                  >
-                    <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
                 </div>
               </TableCell>

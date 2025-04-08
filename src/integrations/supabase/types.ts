@@ -18,7 +18,7 @@ export type Database = {
           notes: string | null
           patient_name: string
           professional_id: string | null
-          profile_id: string
+          profile_id: string | null
           time: string
           type: string
           updated_at: string
@@ -31,7 +31,7 @@ export type Database = {
           notes?: string | null
           patient_name: string
           professional_id?: string | null
-          profile_id: string
+          profile_id?: string | null
           time: string
           type: string
           updated_at?: string
@@ -44,7 +44,7 @@ export type Database = {
           notes?: string | null
           patient_name?: string
           professional_id?: string | null
-          profile_id?: string
+          profile_id?: string | null
           time?: string
           type?: string
           updated_at?: string

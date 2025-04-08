@@ -5,6 +5,7 @@ import { useAppointmentData } from './useAppointmentData';
 import { useProfessionals } from './useProfessionals';
 import { useAppointmentStats } from './useAppointmentStats';
 import { useAppointmentCalendar } from './useAppointmentCalendar';
+import { Appointment } from '@/types/appointment';
 
 export const useAppointments = () => {
   const { 
@@ -13,7 +14,9 @@ export const useAppointments = () => {
     appointmentDates, 
     loadAppointments,
     selectedProfessionalId,
-    setSelectedProfessionalId
+    setSelectedProfessionalId,
+    deleteAppointment,
+    updateAppointment
   } = useAppointmentData();
   
   const { professionals } = useProfessionals();
@@ -56,6 +59,8 @@ export const useAppointments = () => {
     setSelectedProfessionalId: handleProfessionalChange,
     appointmentsThisMonth,
     upcomingAppointments,
-    pastAppointments
+    pastAppointments,
+    deleteAppointment,
+    updateAppointment
   };
 };
