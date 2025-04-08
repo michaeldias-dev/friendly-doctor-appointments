@@ -10,6 +10,7 @@ import {
   User,
   Users,
   FileText,
+  UserPlus,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -47,6 +48,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
     { name: "Consultas", href: "/appointments", icon: Calendar },
     { name: "Prontuários", href: "/records", icon: ClipboardList },
     { name: "Anamnese Social", href: "/social-anamnesis", icon: FileText },
+    { name: "Profissionais", href: "/professionals", icon: UserPlus },
     { name: "Perfil", href: "/profile", icon: User },
   ];
 
@@ -142,13 +144,13 @@ const AppLayout = ({ children }: AppLayoutProps) => {
                     >
                       <item.icon
                         className={cn(
-                          "mr-3 h-5 w-5 transition-colors",
+                          "h-5 w-5 transition-colors",
                           isActive
                             ? "text-primary-700"
                             : "text-gray-400 group-hover:text-gray-500"
                         )}
                       />
-                      {item.name}
+                      <span>{item.name}</span>
                     </Link>
                   );
                 })}

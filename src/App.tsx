@@ -10,6 +10,7 @@ import Records from "./pages/Records";
 import Auth from "./pages/Auth";
 import AdminUsers from "./pages/AdminUsers";
 import SocialAnamnesis from "./pages/SocialAnamnesis";
+import Professionals from "./pages/Professionals";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/appointments" element={<Appointments />} />
         <Route path="/records" element={<Records />} />
         <Route path="/social-anamnesis" element={<SocialAnamnesis />} />
+        <Route path="/professionals" element={<Professionals />} />
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/login" element={<Navigate to="/auth" replace />} />
         <Route path="*" element={<NotFound />} />

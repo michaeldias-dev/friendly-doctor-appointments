@@ -9,6 +9,8 @@ import {
   User,
   Users,
   X,
+  FileText,
+  UserPlus,
 } from "lucide-react";
 import { Button } from "./button";
 import { Sheet, SheetContent, SheetTrigger } from "./sheet";
@@ -59,6 +61,16 @@ export function Sidebar() {
       to: "/records",
       icon: <ClipboardList className="h-5 w-5" />,
       label: "Prontuários",
+    },
+    {
+      to: "/social-anamnesis",
+      icon: <FileText className="h-5 w-5" />,
+      label: "Anamnese Social",
+    },
+    {
+      to: "/professionals",
+      icon: <UserPlus className="h-5 w-5" />,
+      label: "Profissionais",
     },
     {
       to: "/profile",
