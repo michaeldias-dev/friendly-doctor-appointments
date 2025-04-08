@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Professional } from '@/types/professional';
-import { Tables } from '@/types/supabase';
 
 export const useProfessionals = () => {
   const [professionals, setProfessionals] = useState<Professional[]>([]);
@@ -12,7 +11,7 @@ export const useProfessionals = () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from<Tables['professionals']['Row']>('professionals')
+        .from('professionals')
         .select("id, first_name, last_name, specialty")
         .order("first_name", { ascending: true });
 
@@ -35,7 +34,7 @@ export const useProfessionals = () => {
       setLoading(true);
       
       const { error } = await supabase
-        .from<Tables['professionals']['Row']>('professionals')
+        .from('professionals')
         .insert({
           first_name: professional.first_name,
           last_name: professional.last_name,
@@ -59,7 +58,7 @@ export const useProfessionals = () => {
     try {
       setLoading(true);
       const { error } = await supabase
-        .from<Tables['professionals']['Row']>('professionals')
+        .from('professionals')
         .update(updates)
         .eq("id", id);
 

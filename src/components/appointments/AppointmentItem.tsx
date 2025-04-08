@@ -21,7 +21,7 @@ const AppointmentItem = ({
         <div className="flex-1">
           <div className="flex items-center justify-between mb-2">
             <h3 className="font-medium text-lg">{appointment.patient_name}</h3>
-            <AppointmentTypeBadge type={appointment.type} types={appointmentTypes} />
+            <AppointmentTypeBadge type={appointment.type} appointmentTypes={appointmentTypes} />
           </div>
           
           <div className="text-sm text-muted-foreground mb-2">

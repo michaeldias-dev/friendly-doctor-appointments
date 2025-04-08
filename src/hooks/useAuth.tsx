@@ -95,6 +95,7 @@ export const useAuth = () => {
 
   const handleRegister = async () => {
     try {
+      // Desativando a confirmação de email configurando emailRedirectTo como null
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -104,6 +105,7 @@ export const useAuth = () => {
             last_name: formData.lastName,
             specialty: formData.specialty,
           },
+          emailRedirectTo: null, // Isso desativa a confirmação de email
         },
       });
 
