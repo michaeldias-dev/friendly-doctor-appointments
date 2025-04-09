@@ -109,7 +109,7 @@ export const useAuth = () => {
         specialty: formData.specialty
       });
       
-      // Primeiro criar credenciais de autenticação
+      // Passo 1: Criar o usuário na autenticação
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -134,21 +134,11 @@ export const useAuth = () => {
         throw new Error("Erro ao criar o usuário: ID de usuário não disponível");
       }
       
-      // Antes de atualizar o perfil, fazemos o login como o novo usuário para obter privilégios
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
-      });
-      
-      if (signInError) {
-        console.error("Erro ao fazer login automático:", signInError);
-        throw signInError;
-      }
-      
-      // Agora atualizamos o perfil com o usuário autenticado
+      // Passo 2: Com as novas políticas RLS, podemos inserir o perfil diretamente
+      // sem necessidade de fazer login primeiro
       const { error: profileError } = await supabase
         .from('profiles')
-        .upsert({ 
+        .insert({ 
           id: data.user.id,
           email: formData.email,
           approved: null, // Pendente de aprovação
@@ -159,14 +149,11 @@ export const useAuth = () => {
         });
       
       if (profileError) {
-        console.error("Erro ao atualizar perfil:", profileError);
+        console.error("Erro ao inserir perfil:", profileError);
         throw profileError;
       }
       
-      console.log("Perfil do usuário atualizado com sucesso");
-      
-      // Fazer logout do usuário após o registro bem-sucedido
-      await supabase.auth.signOut();
+      console.log("Perfil do usuário inserido com sucesso");
       
       setRegistrationComplete(true);
       resetForm();
