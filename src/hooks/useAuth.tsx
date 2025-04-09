@@ -109,7 +109,7 @@ export const useAuth = () => {
         specialty: formData.specialty
       });
       
-      // Criando novo usuário
+      // Primeiro criar credenciais de autenticação
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -133,18 +133,29 @@ export const useAuth = () => {
       if (!data?.user?.id) {
         throw new Error("Erro ao criar o usuário: ID de usuário não disponível");
       }
-
-      // Atualizar explicitamente o perfil do usuário
+      
+      // Antes de atualizar o perfil, fazemos o login como o novo usuário para obter privilégios
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+      
+      if (signInError) {
+        console.error("Erro ao fazer login automático:", signInError);
+        throw signInError;
+      }
+      
+      // Agora atualizamos o perfil com o usuário autenticado
       const { error: profileError } = await supabase
         .from('profiles')
         .upsert({ 
           id: data.user.id,
           email: formData.email,
-          approved: null, // Definir explicitamente como null para indicar "pendente"
+          approved: null, // Pendente de aprovação
           specialty: formData.specialty,
           first_name: formData.firstName,
           last_name: formData.lastName,
-          role: 'doctor' // Definir papel padrão como médico
+          role: 'doctor' // Papel padrão
         });
       
       if (profileError) {
@@ -153,6 +164,9 @@ export const useAuth = () => {
       }
       
       console.log("Perfil do usuário atualizado com sucesso");
+      
+      // Fazer logout do usuário após o registro bem-sucedido
+      await supabase.auth.signOut();
       
       setRegistrationComplete(true);
       resetForm();

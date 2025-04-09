@@ -14,7 +14,7 @@ export const useUserData = () => {
     try {
       console.log("Carregando usuários...");
       
-      // Fetch all profiles - RLS policies will automatically restrict access based on user role
+      // Buscar todos os perfis - as políticas RLS vão restringir acesso automaticamente
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
         .select('id, first_name, last_name, specialty, approved, created_at, role, email')

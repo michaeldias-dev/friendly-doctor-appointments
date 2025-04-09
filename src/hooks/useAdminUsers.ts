@@ -10,7 +10,7 @@ export const useAdminUsers = () => {
   const { users, isLoading, loadUsers } = useUserData();
   const { handleApprove } = useUserApproval(users, loadUsers);
   
-  // Setup realtime updates for the profiles table
+  // Configurar atualizações em tempo real para a tabela profiles
   useRealtimeUpdates('profiles', loadUsers);
 
   // Verificar permissões de admin e carregar usuários
@@ -29,7 +29,7 @@ export const useAdminUsers = () => {
       checkAdmin().then(isAdmin => {
         if (isAdmin) loadUsers();
       });
-    }, 5000); // Atualizar a cada 5 segundos (reduzido de 15s para 5s)
+    }, 3000); // Atualizar a cada 3 segundos para ver novos registros mais rapidamente
 
     return () => {
       clearInterval(intervalId);
