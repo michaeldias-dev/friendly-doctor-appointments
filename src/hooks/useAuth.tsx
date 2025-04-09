@@ -102,6 +102,13 @@ export const useAuth = () => {
     try {
       setIsLoading(true);
       
+      console.log("Iniciando registro de novo usuário:", {
+        email: formData.email,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        specialty: formData.specialty
+      });
+      
       // Criando novo usuário
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
@@ -112,42 +119,45 @@ export const useAuth = () => {
             last_name: formData.lastName,
             specialty: formData.specialty,
           },
-          emailRedirectTo: null, // Isso desativa a confirmação de email
         },
       });
 
-      if (error) throw error;
-
-      // Atualizar o perfil do usuário com o email e definir approved como null (pendente)
-      if (data && data.user) {
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .update({ 
-            email: formData.email,
-            approved: null, // Definir explicitamente como null para indicar "pendente"
-            specialty: formData.specialty,
-            first_name: formData.firstName,
-            last_name: formData.lastName
-          })
-          .eq('id', data.user.id);
-        
-        if (profileError) {
-          console.error("Erro ao atualizar perfil:", profileError);
-          throw profileError;
-        }
-        
-        console.log("Novo usuário registrado:", {
-          id: data.user.id,
-          email: formData.email,
-          name: `${formData.firstName} ${formData.lastName}`,
-          specialty: formData.specialty,
-          approved: null
-        });
+      if (error) {
+        console.error("Erro ao criar usuário:", error);
+        throw error;
       }
 
+      console.log("Usuário criado com sucesso:", data);
+
+      // Verificar se o usuário foi criado corretamente
+      if (!data?.user?.id) {
+        throw new Error("Erro ao criar o usuário: ID de usuário não disponível");
+      }
+
+      // Atualizar explicitamente o perfil do usuário
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .upsert({ 
+          id: data.user.id,
+          email: formData.email,
+          approved: null, // Definir explicitamente como null para indicar "pendente"
+          specialty: formData.specialty,
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          role: 'doctor' // Definir papel padrão como médico
+        });
+      
+      if (profileError) {
+        console.error("Erro ao atualizar perfil:", profileError);
+        throw profileError;
+      }
+      
+      console.log("Perfil do usuário atualizado com sucesso");
+      
       setRegistrationComplete(true);
       resetForm();
     } catch (error: any) {
+      console.error("Erro durante o registro:", error);
       toast({
         title: "Erro",
         description: error.message,

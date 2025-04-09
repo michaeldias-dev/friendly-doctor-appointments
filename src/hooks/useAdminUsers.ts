@@ -29,7 +29,7 @@ export const useAdminUsers = () => {
       checkAdmin().then(isAdmin => {
         if (isAdmin) loadUsers();
       });
-    }, 15000); // Atualizar a cada 15 segundos (reduzido de 30s para 15s)
+    }, 5000); // Atualizar a cada 5 segundos (reduzido de 15s para 5s)
 
     return () => {
       clearInterval(intervalId);

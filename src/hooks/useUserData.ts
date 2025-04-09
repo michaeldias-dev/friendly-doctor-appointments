@@ -12,6 +12,8 @@ export const useUserData = () => {
   const loadUsers = useCallback(async () => {
     setIsLoading(true);
     try {
+      console.log("Carregando usuários...");
+      
       // Fetch all profiles - RLS policies will automatically restrict access based on user role
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
@@ -19,29 +21,33 @@ export const useUserData = () => {
         .order('created_at', { ascending: false });
 
       if (profilesError) {
-        console.error("Error fetching profiles:", profilesError);
+        console.error("Erro ao buscar perfis:", profilesError);
         throw profilesError;
       }
 
-      console.log("Profiles loaded:", profilesData);
+      console.log("Perfis carregados:", profilesData);
       
-      // Sort users - pending first, then rejected, then approved by most recent date
+      if (profilesData.length === 0) {
+        console.log("Nenhum perfil encontrado");
+      }
+      
+      // Priorizar usuários pendentes (aprovação null)
       const sortedUsers = profilesData.sort((a, b) => {
-        // Pending users (approved is null)
+        // Pendentes primeiro (approved é null)
         if (a.approved === null && b.approved !== null) return -1;
         if (a.approved !== null && b.approved === null) return 1;
         
-        // Rejected users (approved is false)
+        // Depois rejeitados (approved é false)
         if (a.approved === false && b.approved === true) return -1;
         if (a.approved === true && b.approved === false) return 1;
         
-        // Then by most recent date
+        // Por fim, pela data mais recente
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       });
 
       setUsers(sortedUsers);
     } catch (error: any) {
-      console.error("Error loading users:", error);
+      console.error("Erro ao carregar usuários:", error);
       toast({
         title: "Erro",
         description: "Não foi possível carregar a lista de usuários",
