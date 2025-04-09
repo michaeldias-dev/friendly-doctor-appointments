@@ -134,8 +134,16 @@ export const useAuth = () => {
         throw new Error("Erro ao criar o usuário: ID de usuário não disponível");
       }
       
-      // Passo 2: Com as novas políticas RLS, podemos inserir o perfil diretamente
-      // sem necessidade de fazer login primeiro
+      // Verificar se o usuário realmente foi criado antes de adicionar o perfil
+      const { data: checkUser, error: checkError } = await supabase.auth.getUser();
+      
+      if (checkError || !checkUser?.user) {
+        console.log("Esperando pela criação do usuário na auth...");
+        // Aguardar um momento para garantir que o usuário foi criado no banco de dados
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      
+      // Passo 2: Inserir o perfil após confirmar que o usuário existe
       const { error: profileError } = await supabase
         .from('profiles')
         .insert({ 
