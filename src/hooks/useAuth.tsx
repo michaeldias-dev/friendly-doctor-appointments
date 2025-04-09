@@ -100,6 +100,8 @@ export const useAuth = () => {
 
   const handleRegister = async () => {
     try {
+      setIsLoading(true);
+      
       // Criando novo usuário
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
@@ -151,6 +153,8 @@ export const useAuth = () => {
         description: error.message,
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 

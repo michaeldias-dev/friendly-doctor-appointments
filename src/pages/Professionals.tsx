@@ -36,7 +36,6 @@ const Professionals = () => {
             title: 'Profissional atualizado',
             description: 'As informações do profissional foram atualizadas com sucesso.',
           });
-          setShowForm(false);
         } else {
           toast({
             title: 'Erro ao atualizar profissional',
@@ -53,7 +52,6 @@ const Professionals = () => {
             title: 'Profissional cadastrado',
             description: 'O novo profissional foi cadastrado com sucesso.',
           });
-          setShowForm(false);
         } else {
           toast({
             title: 'Erro ao cadastrar profissional',
@@ -72,11 +70,6 @@ const Professionals = () => {
     }
   };
 
-  const handleCancel = () => {
-    setShowForm(false);
-    setCurrentProfessional(undefined);
-  };
-
   return (
     <AppLayout>
       <ProfessionalsHeader 
@@ -86,17 +79,16 @@ const Professionals = () => {
       />
 
       <div className="space-y-6">
-        {showForm && (
-          <ProfessionalForm
-            professional={currentProfessional}
-            onSubmit={handleSubmit}
-            onCancel={handleCancel}
-          />
-        )}
-
         <ProfessionalsList 
           onEdit={handleEditProfessional}
           searchTerm={searchTerm}
+        />
+
+        <ProfessionalForm
+          professional={currentProfessional}
+          open={showForm}
+          onSubmit={handleSubmit}
+          onOpenChange={setShowForm}
         />
       </div>
     </AppLayout>

@@ -5,20 +5,22 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle
+} from '@/components/ui/sheet';
 
 interface ProfessionalFormProps {
   professional?: Professional;
+  open: boolean;
   onSubmit: (professional: Omit<Professional, 'id'>) => Promise<void>;
-  onCancel: () => void;
+  onOpenChange: (open: boolean) => void;
 }
 
-const ProfessionalForm = ({ professional, onSubmit, onCancel }: ProfessionalFormProps) => {
+const ProfessionalForm = ({ professional, open, onSubmit, onOpenChange }: ProfessionalFormProps) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [specialty, setSpecialty] = useState('');
@@ -34,13 +36,12 @@ const ProfessionalForm = ({ professional, onSubmit, onCancel }: ProfessionalForm
       setLastName('');
       setSpecialty('');
     }
-  }, [professional]);
+  }, [professional, open]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!firstName.trim() || !lastName.trim()) {
-      alert('Nome e sobrenome são obrigatórios');
       return;
     }
 
@@ -53,12 +54,11 @@ const ProfessionalForm = ({ professional, onSubmit, onCancel }: ProfessionalForm
         specialty: specialty.trim() || null,
       });
       
-      // Reset form if creating a new professional
-      if (!professional) {
-        setFirstName('');
-        setLastName('');
-        setSpecialty('');
-      }
+      // Reset form if needed
+      setFirstName('');
+      setLastName('');
+      setSpecialty('');
+      onOpenChange(false);
     } catch (error) {
       console.error('Erro ao salvar profissional:', error);
     } finally {
@@ -67,13 +67,19 @@ const ProfessionalForm = ({ professional, onSubmit, onCancel }: ProfessionalForm
   };
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>{professional ? 'Editar Profissional' : 'Novo Profissional'}</CardTitle>
-      </CardHeader>
-      <form onSubmit={handleSubmit}>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent className="w-full sm:max-w-md space-y-6 overflow-y-auto">
+        <SheetHeader>
+          <SheetTitle>{professional ? 'Editar Profissional' : 'Novo Profissional'}</SheetTitle>
+          <SheetDescription>
+            {professional 
+              ? 'Edite as informações do profissional e salve as alterações.'
+              : 'Preencha as informações para adicionar um novo profissional.'}
+          </SheetDescription>
+        </SheetHeader>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="firstName">Nome *</Label>
               <Input
@@ -96,28 +102,26 @@ const ProfessionalForm = ({ professional, onSubmit, onCancel }: ProfessionalForm
                 required
               />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="specialty">Especialidade</Label>
+              <Input
+                id="specialty"
+                value={specialty}
+                onChange={(e) => setSpecialty(e.target.value)}
+                placeholder="Especialidade"
+                className="bg-white"
+              />
+            </div>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="specialty">Especialidade</Label>
-            <Input
-              id="specialty"
-              value={specialty}
-              onChange={(e) => setSpecialty(e.target.value)}
-              placeholder="Especialidade"
-              className="bg-white"
-            />
-          </div>
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button type="button" variant="outline" onClick={onCancel}>
-            Cancelar
-          </Button>
-          <Button type="submit" disabled={submitting}>
-            {submitting ? 'Salvando...' : professional ? 'Atualizar' : 'Salvar'}
-          </Button>
-        </CardFooter>
-      </form>
-    </Card>
+          
+          <SheetFooter>
+            <Button type="submit" disabled={submitting}>
+              {submitting ? 'Salvando...' : professional ? 'Atualizar' : 'Salvar'}
+            </Button>
+          </SheetFooter>
+        </form>
+      </SheetContent>
+    </Sheet>
   );
 };
 

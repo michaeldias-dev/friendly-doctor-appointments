@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { useAppointmentForm } from "@/hooks/useAppointmentForm";
 import AppointmentFormFields from "./appointments/AppointmentFormFields";
 
@@ -16,6 +16,9 @@ const NewAppointment = ({ onSuccess }: NewAppointmentProps) => {
     <div className="h-full flex flex-col">
       <SheetHeader className="flex-none">
         <SheetTitle className="text-xl">Nova Consulta</SheetTitle>
+        <SheetDescription>
+          Preencha os dados para agendar uma nova consulta
+        </SheetDescription>
       </SheetHeader>
 
       <div className="flex-1 overflow-y-auto mt-6 px-1">
