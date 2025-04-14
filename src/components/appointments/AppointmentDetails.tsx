@@ -131,13 +131,13 @@ const AppointmentDetails = ({
           
           <DialogFooter className="flex gap-2 sm:justify-between mt-6">
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => setEditMode(true)} disabled=true>
+              <Button variant="outline" onClick={() => setEditMode(true)} disabled="true">
                 Editar
               </Button>
               <Button 
                 variant="destructive" 
                 onClick={handleDelete}
-                disabled=true
+                disabled="true"
               >
                 Excluir
               </Button>
