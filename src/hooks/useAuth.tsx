@@ -134,20 +134,23 @@ export const useAuth = () => {
         throw new Error("Erro ao criar o usuário: ID de usuário não disponível");
       }
       
-      // Verificar se o usuário realmente foi criado antes de adicionar o perfil
-      const { data: checkUser, error: checkError } = await supabase.auth.getUser();
+      // Importante: após o registro, precisamos aguardar que o usuário seja totalmente criado no backend
+      // antes de tentar inserir o perfil
       
-      if (checkError || !checkUser?.user) {
-        console.log("Esperando pela criação do usuário na auth...");
-        // Aguardar um momento para garantir que o usuário foi criado no banco de dados
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      }
+      // Primeiro, fazemos logout do usuário recém-criado para evitar conflitos
+      await supabase.auth.signOut();
       
-      // Passo 2: Inserir o perfil após confirmar que o usuário existe
+      // Aguardamos um tempo para garantir que a criação do usuário foi concluída no backend
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Agora tentamos obter o usuário pelo ID para confirmar que ele existe
+      const userId = data.user.id;
+      
+      // Finalmente, inserimos o perfil com os dados do usuário
       const { error: profileError } = await supabase
         .from('profiles')
         .insert({ 
-          id: data.user.id,
+          id: userId,
           email: formData.email,
           approved: null, // Pendente de aprovação
           specialty: formData.specialty,
