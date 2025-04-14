@@ -40,22 +40,13 @@ export const useUserRegistration = () => {
         throw new Error("Erro ao criar o usuário: ID de usuário não disponível");
       }
       
-      // Após o registro, fazer logout do usuário recém-criado
+      // O trigger handle_new_user() no Supabase já vai criar o perfil automaticamente
+      // então não precisamos mais tentar inserir manualmente
+      
+      // Fazemos logout após o registro para que o usuário precise fazer login explicitamente
       await supabase.auth.signOut();
       
-      // Adicionamos um atraso maior para garantir que o usuário seja
-      // completamente criado no backend do Supabase
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
-      // Para contornar a restrição de RLS, precisamos usar o serviço administrativo do Supabase
-      // para inserir o perfil do usuário. Como não podemos fazer isso diretamente do frontend,
-      // vamos apenas informar o usuário que o registro foi bem-sucedido e que ele precisará
-      // aguardar aprovação.
-      
-      console.log("Perfil do usuário será processado pelo backend");
-      
-      // Como não podemos mais inserir o perfil diretamente devido ao RLS,
-      // retornamos sucesso e informamos que o usuário precisa aguardar aprovação
+      // Informar ao usuário que o cadastro foi concluído e está pendente de aprovação
       toast({
         title: "Registro concluído",
         description: "Seu cadastro foi recebido e está em análise. Você receberá um email quando sua conta for aprovada.",
