@@ -8,21 +8,19 @@ export const useAppointmentCalendar = (appointments: Appointment[], appointmentD
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
   
-const normalizeDate = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
  const filteredAppointments = appointments.filter(appointment => {
-  if (!date) return false;
-  const appointmentDate = normalizeDate(parseISO(appointment.date));
-  const selectedDate = normalizeDate(date);
-  return isSameDay(appointmentDate, selectedDate);
-});
-
-const isDayWithAppointments = (day: Date) => {
-  const normalizedDay = normalizeDate(day);
-  return appointmentDates.some(appointmentDate =>
-    isSameDay(normalizeDate(appointmentDate), normalizedDay)
-  );
-};
+    if (!date) return false;
+    // Parse the ISO string date to ensure proper comparison
+    const appointmentDate = parseISO(appointment.date);
+    return isSameDay(appointmentDate, date);
+  });
+  
+  // Function to highlight days with appointments in the calendar
+  const isDayWithAppointments = (day: Date) => {
+    return appointmentDates.some(appointmentDate => 
+      isSameDay(day, appointmentDate)
+    );
+  };
 
   return {
     date,
