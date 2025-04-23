@@ -117,6 +117,7 @@ const AppointmentFormFields = ({ form, professionals, isLoading }: AppointmentFo
                 <SelectItem value="return">Retorno</SelectItem>
                 <SelectItem value="exam">Exames</SelectItem>
                 <SelectItem value="emergency">Emergência</SelectItem>
+                <SelectItem value="therapy session">Sessão de Terapia</SelectItem>
               </SelectContent>
             </Select>
           </FormItem>
