@@ -1,69 +1,152 @@
-# Welcome to your Lovable project
 
-## Project info
+<div align="center">
 
-**URL**: https://lovable.dev/projects/83bb866f-178d-4d65-8d76-e1c7c323a498
+# 🩺 Friendly Doctor Appointments
 
-## How can I edit this code?
+### Sistema Web de Agendamento Médico
 
-There are several ways of editing your application.
+Aplicação web desenvolvida para apoiar a organização e o gerenciamento de agendamentos de consultas médicas, com foco em usabilidade, organização e experiência do usuário.
 
-**Use Lovable**
+<br>
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/83bb866f-178d-4d65-8d76-e1c7c323a498) and start prompting.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)
 
-Changes made via Lovable will be committed automatically to this repo.
+<br>
 
-**Use your preferred IDE**
+[![Acessar Sistema](https://img.shields.io/badge/ACESSAR_SISTEMA-0078D4?style=for-the-badge&logo=vercel&logoColor=white)](https://friendlydoctorappointments.vercel.app)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+</div>
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 📋 Sobre o projeto
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+O **Friendly Doctor Appointments** é um projeto de aplicação web voltado ao contexto de agendamentos médicos.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+A proposta é explorar o desenvolvimento de soluções digitais para o setor de saúde, utilizando tecnologias modernas de front-end e recursos de integração com serviços de back-end.
 
-# Step 3: Install the necessary dependencies.
-npm i
+O projeto também representa a aplicação prática de conceitos de desenvolvimento de software, componentização de interfaces, organização de código e manutenção de aplicações web.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+---
+
+## 🛠️ Tecnologias utilizadas
+
+### Front-end
+- **React:** construção de interfaces baseadas em componentes.
+- **TypeScript:** tipagem estática e organização do código.
+- **Vite:** ambiente de desenvolvimento e build.
+- **Tailwind CSS:** estilização e responsividade.
+- **shadcn/ui:** componentes de interface.
+
+### Integrações e ferramentas
+- **Supabase:** plataforma de serviços de back-end integrada ao projeto.
+- **React Router:** gerenciamento de rotas.
+- **TanStack Query:** gerenciamento de consultas e estados assíncronos.
+- **React Hook Form:** gerenciamento de formulários.
+- **Zod:** validação de dados.
+- **Git e GitHub:** versionamento de código.
+
+---
+
+## 🏗️ Estrutura do projeto
+
+O projeto utiliza uma arquitetura de aplicação React com TypeScript, organizada em diretórios para código-fonte, recursos públicos e configurações dos serviços utilizados.
+
+```text
+friendly-doctor-appointments/
+├── public/              # Arquivos públicos
+├── src/                 # Código-fonte da aplicação
+├── supabase/            # Configurações do Supabase
+├── package.json         # Dependências e scripts
+├── vite.config.ts       # Configuração do Vite
+├── tailwind.config.ts   # Configuração do Tailwind CSS
+└── README.md            # Documentação
+```
+
+---
+
+## 🚀 Como executar o projeto
+
+### Pré-requisitos
+
+Antes de começar, tenha instalado:
+
+- Node.js
+- npm
+- Git
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/michaeldias-dev/friendly-doctor-appointments.git
+```
+
+### 2. Acesse a pasta
+
+```bash
+cd friendly-doctor-appointments
+```
+
+### 3. Instale as dependências
+
+```bash
+npm install
+```
+
+### 4. Inicie o ambiente de desenvolvimento
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Acesse o endereço local informado pelo Vite no terminal.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+> **Observação:** funcionalidades integradas ao Supabase podem depender de variáveis de ambiente e configurações específicas do projeto.
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🌐 Demonstração
 
-## What technologies are used for this project?
+O projeto possui uma versão publicada na Vercel.
 
-This project is built with .
+**Acesse a aplicação:**
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+🔗 https://friendlydoctorappointments.vercel.app
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/83bb866f-178d-4d65-8d76-e1c7c323a498) and click on Share -> Publish.
+## 📸 Capturas de tela
 
-## I want to use a custom domain - is that possible?
+Esta seção será utilizada para apresentar as principais telas e fluxos da aplicação.
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+*Capturas de tela serão adicionadas futuramente.*
+
+---
+
+## 📈 Evolução do projeto
+
+O projeto está disponível para melhorias contínuas, incluindo aperfeiçoamentos de interface, organização do código, testes automatizados e documentação técnica.
+
+---
+
+## 👨‍💻 Desenvolvedor
+
+**Michael Dias**
+
+Desenvolvedor Full Stack | Analista de Sistemas
+
+Graduado em Análise e Desenvolvimento de Sistemas e pós-graduando em Ciência de Dados.
+
+🔗 [Meu GitHub](https://github.com/michaeldias-dev)
+
+---
+
+<div align="center">
+
+Desenvolvido com dedicação, aprendizado contínuo e foco em qualidade de software.
+
+</div>
